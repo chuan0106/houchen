@@ -13,6 +13,9 @@
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
 
+
+    background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%);
+
     .toolbar {
         width: 100%;
         // min-width: 1280px;
@@ -41,12 +44,67 @@
             -ms-flex: 1;
             flex: 1;
             padding: 0 40px;
+
+            .heading_h1 {
+                font-size: 30px;
+                text-align: center;
+                position: relative;
+                width: max-content;
+                margin: 0 auto;
+                color: #4dd0e1;
+            }
+
+            .heading_h1:before {
+                position: absolute;
+                content: "";
+                z-index: -1;
+                top: -20px;
+                height: 100%;
+                width: 100px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                background: url('https://www.dataojocloud.com/dataeye/v1/data/image/get?imageid=617a5596fd73380b818dc300') no-repeat 50%;
+                background-size: 64px 64px;
+                opacity: .84
+            }
+
+            .heading_h1:after {
+                position: absolute;
+                content: "";
+                width: 150%;
+                left: -25%;
+                height: 50%;
+                bottom: -12px;
+                border-radius: 50%;
+                background: linear-gradient(transparent 80%, rgba(77, 208, 225, .8));
+                background-size: 400% 200%;
+                opacity: .6;
+                animation: h1Animate 6s linear infinite
+            }
+
+            @keyframes h1Animate {
+                0% {
+                    background-position: 100% 100%
+                }
+
+                50% {
+                    background-position: 100% 50%
+                }
+
+                to {
+                    /* background-pos… */
+                    background-position: 100% 100%
+                }
+            }
+
+
         }
 
         .toolbar_left {
             background: url('@/assets/houchen/left.png');
             background-repeat: no-repeat;
-            background-position: bottom;
+            background-position: center bottom 8px;
             background-size: 100% 28px;
             // max-width: 448px;
             // min-width: 448px;
@@ -62,7 +120,7 @@
                 .weather {
                     display: inline-block;
                     border-radius: 2px;
-                    box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+                    // box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
                     margin-right: 8px;
 
                     .sun {
@@ -154,7 +212,7 @@
         .toolbar_right {
             background: url('@/assets/houchen/right.png');
             background-repeat: no-repeat;
-            background-position: bottom;
+            background-position: center bottom 3px;
             background-size: 100% 28px;
             max-width: 448px;
             min-width: 448px;
@@ -221,8 +279,8 @@
             .card_container {
                 position: relative;
                 perspective: 500px;
-                width: 50px;
-                height: 70px;
+                width: 40px;
+                height: 60px;
                 background-color: #d7d7d7;
                 margin: 0 5px;
 
@@ -256,14 +314,14 @@
             }
 
             .card1 {
-                background: rgb(45, 160, 214, 0.3);
-                line-height: 70px;
+                background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+                line-height: 60px;
             }
 
             .card2 {
                 top: 50%;
                 line-height: 0;
-                background: yellow;
+                background-image: linear-gradient(to right, #434343 0%, black 100%);
                 transform: rotateX(180deg);
                 transform-origin: center top;
                 backface-visibility: hidden;
@@ -276,8 +334,8 @@
             }
 
             .card3 {
-                background: #f1cd81;
-                line-height: 70px;
+                background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+                line-height: 60px;
                 z-index: 10;
                 transform-origin: center bottom;
                 transition: 0.5s;
@@ -291,7 +349,7 @@
             .card4 {
                 top: 50%;
                 line-height: 0;
-                background: yellow;
+                background-image: linear-gradient(to right, #434343 0%, black 100%);
             }
 
             .flip .card2 {

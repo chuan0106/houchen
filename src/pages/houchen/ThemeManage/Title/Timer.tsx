@@ -9,6 +9,7 @@ const Index = () => {
         const hourRoot = hourRef.current
         const minuteRoot = minuteRef.current
         const secondRoot = secondRef.current
+        countDown()
         const intervalId = setInterval(countDown, 1000);
         return () => {
             clearInterval(intervalId);

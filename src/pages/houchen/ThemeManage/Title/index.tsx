@@ -64,7 +64,7 @@ const Title = () => {
                     </div>
                 </div>
                 <div className={styles.toolbar_center}>
-                    <h1>后陈大屏可视化</h1>
+                    <h1 className={styles.heading_h1}>鹿邑县后陈</h1>
                 </div>
                 <div className={styles.toolbar_right}>
                     <div className={styles.time_container}>

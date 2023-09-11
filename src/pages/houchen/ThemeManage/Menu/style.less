@@ -1,0 +1,179 @@
+.container,
+.containerActive {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: linear-gradient(to right, #ed6ea0, #ec8c69);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    // background: url('~@/assets/common/menu2.png') no-repeat;
+    background-size: 100% 100%;
+    pointer-events: auto;
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+
+    .warp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    // 按钮
+    .menu_toggler {
+
+        position: absolute;
+        display: block;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        // width: 40px;
+        // height: 40px;
+        width: 55px;
+        height: 42px;
+        z-index: 2;
+        opacity: 1;
+        cursor: pointer;
+
+        .btn_class_name {
+            --primary: 255, 90, 120;
+            --secondary: 150, 50, 60;
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+            outline: 10px solid rgb(rgb(133, 133, 127), .5);
+            border-radius: 100%;
+            position: relative;
+            transition: .3s;
+        }
+
+        .btn_class_name .back {
+            background: rgb(var(--secondary));
+            background-image: linear-gradient(to top, #dad4ec 0%, #dad4ec 1%, #f3e7e9 100%);
+            border-radius: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn_class_name .front {
+            background: linear-gradient(0deg, rgba(var(--primary), .6) 20%, rgba(var(--primary)) 50%);
+            background-image: linear-gradient(to top, #dad4ec 0%, #dad4ec 1%, #f3e7e9 100%);
+            box-shadow: 0 .5em 1em -0.2em rgba(var(--secondary), .5);
+            border-radius: 100%;
+            position: absolute;
+            border: 1px solid rgb(var(--secondary));
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: inherit;
+            transform: translateY(-15%);
+            transition: .15s;
+            color: rgb(var(--secondary));
+        }
+
+        .btn_class_name:active .front {
+            transform: translateY(0%);
+            box-shadow: 0 0;
+        }
+
+    }
+
+    .menuWarp,
+    .menuWarpActive {
+        width: 300px;
+        height: 300px;
+        // background: url('~@/assets/common/menu2.png') no-repeat;
+        background-size: 100% 100%;
+
+        .menu_item {
+            position: absolute;
+            display: block;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 68px;
+            height: 68px;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        // 活跃按钮
+        .menu_item_active {
+            opacity: 1;
+
+            a {
+                pointer-events: auto;
+            }
+        }
+
+        .active_nav_item {
+            // background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%) !important;
+            // background: url('@/assets/houchen/icon/itemActive.png') no-repeat !important;
+            // background-size: cover;
+        }
+
+        .nav_item {
+            display: flex;
+            justify-content: space-evenly;
+            padding: 8px;
+            /* display: block; */
+            width: inherit;
+            height: inherit;
+            /* line-height: 80px; */
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.2);
+            background: url('@/assets/houchen/icon/item.png');
+            border-radius: 50%;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.2s;
+            font-weight: 700;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .menu_item a:hover {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.3);
+            // font-size: 45px;
+            font-size: 16px;
+        }
+
+        //   new
+
+    }
+
+    .menuWarpActive {
+        width: 300px;
+        height: 300px;
+        // background-color: red;
+        // background: url('~@/assets/common/menu2.png') no-repeat;
+        background-size: 100% 100%;
+    }
+}
+
+.containerActive {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: transparent;
+}

@@ -1,0 +1,45 @@
+import { useMemo } from 'react';
+import { Marker } from 'react-map-gl';
+import cities from './a.json'
+import Pin from './Pin';
+
+type MapMarkersType = {
+    onMarkerClick: Function,
+    map: any
+}
+function MapMarkers({ onMarkerClick, map }: MapMarkersType) { // 将mapRef添加到props中
+    const onMarkerHandler = (e, city) => {
+        onMarkerClick(city)
+        e.originalEvent.stopPropagation();
+        map.current.getMap().easeTo({
+            center: [city.longitude, city.latitude], // 新的经纬度
+            zoom: 12, // 新的缩放级别
+            duration: 2000, // 过渡动画持续时间（以毫秒为单位）
+        });
+    }
+    const markers = useMemo(() => {
+        return cities.map((city, index) => (
+            <Marker
+                key={`marker-${index}`}
+                longitude={city.longitude}
+                latitude={city.latitude}
+                anchor="right"
+                onClick={(e) => onMarkerHandler(e, city)}
+            >
+                <div style={{ display: "flex", alignItems: 'center' }}>
+                    <Pin />
+                    <div>{city.city}</div>
+                </div>
+            </Marker>
+        ));
+    }, [cities, onMarkerHandler]);
+
+
+    return (
+        <>
+            {markers}
+        </>
+    )
+}
+
+export default MapMarkers;

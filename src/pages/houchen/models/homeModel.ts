@@ -1,24 +1,4 @@
-import { Effect, Reducer } from 'umi';
-
-export interface StateType {
-    // 定义 model 的 state 类型
-    menu: string,
-    map: null,
-    viewState: any
-}
-
-export interface HouchenModelType {
-    namespace: 'houchenModel';
-    state: StateType;
-    effects: {
-        fetch: Effect;
-    };
-    reducers: {
-        setMenu: Reducer<StateType>,
-        setMap: Reducer<StateType>,
-        setViewState: Reducer<StateType>,
-    };
-}
+import { HouchenModelType } from '@/interface/houchen/map'
 
 const houchenModel: HouchenModelType = {
     namespace: 'houchenModel',
@@ -32,7 +12,9 @@ const houchenModel: HouchenModelType = {
             latitude: 33.8762738,
             minZoom: 12,
             maxZoom: 19,
-        }
+        },
+        popupInfo: null
+
     },
     effects: {
         *fetch({ payload }, { call, put }) {
@@ -41,31 +23,29 @@ const houchenModel: HouchenModelType = {
     },
     reducers: {
         setMenu(state, { payload }) {
-            // 处理同步逻辑并更新 state
-            state.menu = payload
             return {
                 ...state,
+                menu: payload
             };
         },
         setMap(state, { payload }) {
-            // 处理同步逻辑并更新 state
-            console.log(payload);
-
-            state.map = payload
             return {
                 ...state,
+                map: payload
             };
         },
         setViewState(state, { payload }) {
-            // 处理同步逻辑并更新 state
-            console.log(payload);
-
-            state.viewState = payload
             return {
                 ...state,
+                viewState: payload
             };
         },
-
+        setPopupInfo(state, { payload }) {
+            return {
+                ...state,
+                popupInfo: payload
+            };
+        },
     },
 };
 

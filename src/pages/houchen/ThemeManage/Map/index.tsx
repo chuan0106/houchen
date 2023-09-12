@@ -1,11 +1,13 @@
-import { useState, useRef, useCallback } from 'react';
+import { FC, useState, useRef, useCallback } from 'react';
 import { useDispatch } from 'umi';
 import { connect } from 'dva';
 import { Map, LayerProps, Marker, Popup, MapRef, MapLayerMouseEvent } from 'react-map-gl';
+import { viewStateType, MarkerProperties } from '@/interface/houchen/map'
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './control-panel';
 import Layers from './Layers'
-
+import Message from './Message'
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1YW4wMTA2IiwiYSI6ImNrc3UzaHM0NDFjbTMydm1kaG1vaW1tN3YifQ.vMtkKlcWXantTp1p1Z6N3g'; // Set your mapbox token here
 
 export const clusterLayer: LayerProps = {
@@ -44,26 +46,17 @@ export const unclusteredPointLayer: LayerProps = {
     }
 };
 
-type PopupInfo = {
-    city: String,
-    population: String,
-    image?: String,  // 使用可选属性
-    state: String,
-    latitude: Number,
-    longitude: Number
+type props = {
+    viewState: viewStateType,
+    popupInfo: MarkerProperties
 }
 
-const App = ({ viewState }) => {
+const App: FC<props> = ({ viewState, popupInfo }) => {
     const dispatch = useDispatch();
     const mapRef = useRef<MapRef>(null);
-    // const [viewState, setViewState] = useState({
-    //     zoom: 13,
-    //     pitch: 62,
-    //     longitude: 115.4109739,
-    //     latitude: 33.8762738,
-    //     minZoom: 12,
-    //     maxZoom: 19,
-    // })
+    const [mapStyle, setMapStyle] = useState(null);
+    // const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
+    console.log(popupInfo, 'popupInfo');
 
     const initMapCallback = (even: MapLayerMouseEvent) => {
 
@@ -80,14 +73,13 @@ const App = ({ viewState }) => {
         }
     }
 
-    const [mapStyle, setMapStyle] = useState(null);
-
-    const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
-
-
     // 弹窗
     const markerHandler = (city: any) => {
-        setPopupInfo(city);
+        // setPopupInfo(city);
+        dispatch({
+            type: 'houchenModel/setPopupInfo',
+            payload: city
+        });
     }
 
     const onClick = (event: MapLayerMouseEvent) => {
@@ -122,21 +114,17 @@ const App = ({ viewState }) => {
                 {/* {pins} */}
                 {popupInfo && (
                     <Popup
-                        anchor="top"
-                        longitude={Number(popupInfo.longitude)}
-                        latitude={Number(popupInfo.latitude)}
-                        onClose={() => setPopupInfo(null)}
+                        anchor="left"
+                        longitude={Number(popupInfo?.longitude)}
+                        latitude={Number(popupInfo?.latitude)}
+                        closeButton={false}
+                        closeOnClick={false}
+                        maxWidth={'100%'}
                     >
-                        <div>
-                            {popupInfo.city}, {popupInfo.state} |{' '}
-                            <a
-                                target="_new"
-                                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
-                            >
-                                Wikipedia
-                            </a>
+                        <div style={{ width: '400px', height: '100%' }}>
+                            {/* {popupInfo?.name} {popupInfo?.property} */}
+                            <Message message={popupInfo} title='详情' />
                         </div>
-                        <img width="100%" src={popupInfo.image} />
                     </Popup>
                 )}
             </Map>
@@ -145,10 +133,10 @@ const App = ({ viewState }) => {
     );
 }
 
-
 function mapStateToProps({ houchenModel }: any) {
     return {
-        viewState: houchenModel.viewState
+        viewState: houchenModel.viewState,
+        popupInfo: houchenModel.popupInfo,
     }
 }
 export default connect(mapStateToProps)(App);

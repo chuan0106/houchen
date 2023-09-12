@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import { connect } from 'dva';
-import { Marker } from 'react-map-gl';
-import cities from './data/home.json'
-import houchen_point from './data/houchen.json'
+import { Marker, MarkerEvent, ViewStateChangeEvent } from 'react-map-gl';
+import { viewStateType } from '@/interface/houchen/map'
+import { homeData, houchenData } from './data/main'
+import { MarkerFeature } from '@/interface/houchen/map'
+
 import Pin from '../Pin';
 
 import chuan from '@/assets/person/chuan.jpg'
@@ -19,80 +21,84 @@ const imgs = [
     { img: shaozhu, id: 6 }
 ]
 
-
 type MapMarkersType = {
-    onMarkerClick: Function,
-    mapRef: any,
-    viewState: any
+    onMarkerClick: Function;
+    mapRef: any;
+    viewState: viewStateType;
 }
 
 function MapMarkers({ onMarkerClick, mapRef, viewState }: MapMarkersType) {
-    const onMarkerHandler = (e, city) => {
-        onMarkerClick(city)
+
+    const onMarkerHandler = (e: any, city: MarkerFeature) => {
+        const { geometry: { coordinates: center } } = city
+        // onMarkerClick(city)
         e.originalEvent.stopPropagation();
         mapRef.current.getMap().easeTo({
-            center: [city.longitude, city.latitude], // 新的经纬度
-            // zoom: 12, // 新的缩放级别
-            duration: 2000, // 过渡动画持续时间（以毫秒为单位）
+            center, // 新的经纬度
+            zoom: 16, // 新的缩放级别
+            duration: 1000, // 过渡动画持续时间（以毫秒为单位）
         });
+
     }
-    const visibleMarkers = cities.filter((marker) => marker.zoom <= viewState.zoom || !marker.zoom);
+    // const visibleMarkers = cities.filter((marker) => marker.zoom <= viewState.zoom || !marker.zoom);
     const markers = useMemo(() => {
-        return visibleMarkers.map((city, index) => (
-            <Marker
+
+        return homeData.features.map((city, index) => {
+            const { geometry, properties } = city
+            return <Marker
                 key={`marker-${index}`}
-                longitude={city.longitude}
-                latitude={city.latitude}
+                longitude={geometry.coordinates[0]}
+                latitude={geometry.coordinates[1]}
                 anchor="right"
                 onClick={(e) => onMarkerHandler(e, city)}
             >
                 <div style={{ display: "flex", alignItems: 'center' }}>
                     <Pin />
-                    <div>{city.city}</div>
-                </div>
-            </Marker>
-        ));
-    }, [cities, onMarkerHandler]);
-
-
-
-    const houchen_markers = useMemo(() => {
-        return houchen_point.map((city, index) => {
-            let img = null
-            for (const iterator of imgs) {
-                if (iterator.id === city.id) {
-                    img = iterator.img
-                }
-            }
-            return <Marker
-                key={`marker-${index}`}
-                longitude={city.longitude}
-                latitude={city.latitude}
-                anchor="right"
-                onClick={(e) => onMarkerHandler(e, city)}
-            >
-                <div style={{ display: "flex", alignItems: 'center' }}>
-
-
-                    {/* <Pin /> */}
-                    <img style={{ width: '25px', height: '25px', borderRadius: '50%' }} src={img} alt="" />
-                    <div>{city.city}</div>
+                    <div>{properties.city}</div>
                 </div>
             </Marker>
         });
-    }, [cities, onMarkerHandler]);
+    }, [homeData, onMarkerHandler]);
+
+    const houchen_markers = useMemo(() => {
+        return houchenData.features.map((city, index) => {
+
+            const { geometry, properties } = city
+            let img;
+            for (const iterator of imgs) {
+                if (iterator.id === properties.id) {
+                    img = iterator.img
+                }
+            }
+
+            return <Marker
+                key={`marker-${index}`}
+                longitude={geometry.coordinates[0]}
+                latitude={geometry.coordinates[1]}
+                anchor="right"
+                onClick={(e) => onMarkerHandler(e, city)}
+            >
+                <div style={{ display: "flex", alignItems: 'center', cursor: 'pointer' }}>
+                    {/* <Pin /> */}
+                    <img style={{ width: '25px', height: '25px', borderRadius: '50%' }} src={img} alt="" />
+                    <div>{properties.city}</div>
+                </div>
+            </Marker>
+        });
+    }, [houchenData, onMarkerHandler]);
 
     return (
         <>
             {markers}
-            {/* 筛选层级 */}
+            {/* 筛选层级 人员图层 */}
             {viewState.zoom >= 15 && houchen_markers}
         </>
     )
 }
 function mapStateToProps({ houchenModel }: any) {
     return {
-        viewState: houchenModel.viewState
+        viewState: houchenModel.viewState,
+        a: houchenModel
     }
 }
 export default connect(mapStateToProps)(MapMarkers);

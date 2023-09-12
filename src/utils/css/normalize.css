@@ -353,3 +353,13 @@ template {
 [hidden] {
   display: none;
 }
+
+/* 重写 popup 样式 */
+.mapboxgl-popup-content {
+  background: none !important;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 0 !important;
+  pointer-events: auto;
+  position: relative;
+}

@@ -1,12 +1,15 @@
-import { FC, useState, useEffect, useRef, Fragment } from 'react';
+import { FC, useEffect, Fragment, memo } from 'react';
 import styles from './style.less'
 import { connect } from 'dva';
+
 import * as echarts from 'echarts/core';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, LegendComponent, TooltipComponent]);
+import { dispatchType } from '@/interface/houchen/map'
+
 
 import Table from '@/pages/Components/Table'
 import cunneijingji from '@/assets/houchen/icon/jingji.png'
@@ -15,11 +18,11 @@ import hexinrenyuan from '@/assets/houchen/icon/hexinrenyuan.png'
 import mapData from '../../data/home.json'
 
 const contentStyle = {
-    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+    overflow: 'hidden', textOverflow: 'ellipsis'
 };
 
-const toFixed = (n, fixed) => ~~(Math.pow(10, fixed) * n) / Math.pow(10, fixed);
-const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const toFixed = (n: any, fixed: any) => ~~(Math.pow(10, fixed) * n) / Math.pow(10, fixed);
+const random = (min: any, max: any) => Math.floor(Math.random() * (max - min + 1) + min);
 
 
 const quanjugailan = [
@@ -97,7 +100,18 @@ const zhudaochanye = [
 ]
 
 
-const dataSource = [
+
+type DataSourceItemType = {
+    match: string;
+    name: string;
+    age: string;
+    sex: string;
+    gold: number;
+    property: string;
+    hobbies: string;
+}
+
+const dataSource: DataSourceItemType[] = [
     {
         match: '臧汗青',
         name: '羽神',
@@ -158,9 +172,10 @@ const rankedData = [...dataSource].sort((a, b) => b.gold - a.gold).map((item, in
 
 
 type Props = {
-    map: object
+    map: any,
+    dispatch: (action: dispatchType) => void;
 }
-const Index: FC<Props> = ({ map }) => {
+const Index: FC<Props> = ({ map, dispatch }) => {
     useEffect(() => {
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
@@ -182,9 +197,6 @@ const Index: FC<Props> = ({ map }) => {
                     color: '#fff', // 设置文本颜色
                     fontSize: 13, // 设置字体大小
                 }
-            },
-            yAxis: {
-                type: 'value'
             },
             tooltip: { // 鼠标悬浮提示框显示 X和Y 轴数据
                 trigger: 'axis',
@@ -212,6 +224,7 @@ const Index: FC<Props> = ({ map }) => {
                 })
             },
             yAxis: {
+                type: 'value',
                 name: '个',
                 minInterval: 1,
                 axisLine: { // 坐标轴刻度相关设置。
@@ -231,13 +244,6 @@ const Index: FC<Props> = ({ map }) => {
                         opacity: 1,
                     },
 
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#ccc', // 修改x轴线条的颜色
-                        width: 1, // 修改x轴线条的宽度
-                        type: 'dotted' // 修改x轴线条的类型
-                    }
                 },
                 splitLine: {
                     show: true, // 显示X轴网格线
@@ -268,44 +274,53 @@ const Index: FC<Props> = ({ map }) => {
             title: '排名',
             dataIndex: 'rank',
             key: 'rank',
-            render: text => <div title={text} style={contentStyle}>{text}</div>,
+            render: (text: any) => <div title={text} style={{ whiteSpace: 'nowrap', ...contentStyle }}>{text}</div>,
         },
         {
             title: '姓名',
             dataIndex: 'name',
             key: 'name',
-            render: text => <div title={text} style={contentStyle}>{text}</div>,
+            render: (text: any) => <div title={text} style={{ whiteSpace: 'nowrap', ...contentStyle }}>{text}</div>,
         },
         {
             title: '年龄',
             dataIndex: 'age',
             key: 'age',
-            render: text => <div title={text} style={contentStyle}>{text}</div>,
+            render: (text: any) => <div title={text} style={{ whiteSpace: 'nowrap', ...contentStyle }}>{text}</div>,
         },
         {
             title: '金币',
             dataIndex: 'gold',
             key: 'gold',
-            render: text => <div title={text} style={contentStyle}>{text}元</div>,
+            render: (text: any) => <div title={text} style={{ whiteSpace: 'nowrap', ...contentStyle }}>{text}元</div>,
         },
         {
             title: '资产',
             dataIndex: 'property',
             key: 'property',
-            render: text => <div title={text} style={contentStyle}>{text}</div>,
+            render: (text: any) => <div title={text} style={{ whiteSpace: 'nowrap', ...contentStyle }}>{text}</div>,
         },
         {
             title: '操作',
-            render: (_, record) => (
+            render: (_: any, record: DataSourceItemType) => (
                 <a className={styles.operation} onClick={() => { examine(_, record) }}>查看详情</a>
             ),
         }
     ];
-    const examine = (_, record) => {
+    const examine = (_: any, record: DataSourceItemType) => {
         const newRecord = mapData.find(name => name.match === record.match)
+
+        // 飞行指定地点
         if (map && newRecord) {
             const { longitude, latitude, zoom } = newRecord
             map.flyTo({ center: [longitude, latitude], zoom, duration: 1000 });
+
+            // 修改弹窗
+            const setPopupInfoAction: dispatchType = {
+                type: 'houchenModel/setPopupInfo',
+                payload: { ...record, ...newRecord }
+            };
+            dispatch(setPopupInfoAction)
         }
     }
     return (
@@ -459,4 +474,5 @@ function mapStateToProps({ houchenModel }: any) {
         map: houchenModel.map
     }
 }
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(memo(Index));
+

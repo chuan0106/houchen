@@ -30,7 +30,7 @@ const Index = ({ columns, dataSource, rowClassName = {}, isScroll = false }) => 
     }, [])
     useEffect(() => {
         return () => {
-            bodyRef.current.scrollTop = 0
+            // bodyRef.current.scrollTop = 0
         }
     }, [dataSource])
     // 开启滚动

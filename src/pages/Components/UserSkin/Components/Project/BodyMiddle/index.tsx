@@ -5,59 +5,48 @@ import message from '@/components/Message'
 import { tabBar, projects } from '@/pages/data/data';
 import search from '@/assets/search.png'
 import search1 from '@/assets/search-1.png'
-const Index = () =>
-{
+const Index = () => {
     const [activeBar, setActiveBar] = useState(0)
     const [searchShow, setSearchShow] = useState(false)
     const [menu, setMenu] = useState(tabBar[0].content)
     const [byword, setByword] = useState('')
     const inputRef = useRef()
     // 导航部分切换
-    const activeHandler = (item, i) =>
-    {
+    const activeHandler = (item, i) => {
         // 高亮切换
         setActiveBar(i)
         // 更改项目内容
         setMenu(item.content)
     }
 
-    const searchHandler = async (e) =>
-    {
-        try
-        {
+    const searchHandler = async (e) => {
+        try {
             await setSearchShow(!searchShow)
             await inputRef.current.focus();
-        } catch (err)
-        {
+        } catch (err) {
             throw err
         }
     }
     // 搜索
-    const searchResults = () =>
-    {
-        setMenu(projects.filter(item =>
-        {
+    const searchResults = () => {
+        setMenu(projects.filter(item => {
             const regex = new RegExp(byword, "g");
             return regex.test(item.项目介绍)
         }))
     }
     // 取消
-    const cancelHandler = () =>
-    {
+    const cancelHandler = () => {
         setSearchShow(false)
     }
 
-    const changeHandler = (e) =>
-    {
+    const changeHandler = (e) => {
         const { target } = e
         setByword(target.value)
     }
-    const modelHandler = (item) =>
-    {
+    const modelHandler = (item) => {
         const { title, arrImg, ...newItem } = item
 
-        message(newItem, (close) =>
-        {
+        message(newItem, (close) => {
             close()
         }, title, arrImg)
     }
@@ -114,8 +103,7 @@ const Index = () =>
         </div>
     );
 };
-function mapDispatchToProps ({ resume })
-{
+function mapDispatchToProps({ resume }) {
     return {
         resume
     }

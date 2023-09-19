@@ -29,7 +29,7 @@ export interface HouchenModelType {
         setMap: Reducer<StateType>,
         setViewState: Reducer<StateType>,
         setPopupInfo: Reducer<StateType>,
-        // setToolBar: Reducer<StateType>,
+        setToolBar: Reducer<StateType>,
     };
 }
 

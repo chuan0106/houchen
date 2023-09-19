@@ -4,6 +4,8 @@
     {
       "type": "Feature",
       "properties": {
+        "longitude": 115.48553,
+        "latitude": 33.8593,
         "city": "鹿邑",
         "population": "8,175,133",
         "image": "https://img2.baidu.com/it/u=1851936439,4163153869&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=666",
@@ -17,6 +19,8 @@
     {
       "type": "Feature",
       "properties": {
+        "longitude": 115.4109739,
+        "latitude": 33.8762738,
         "city": "后陈胡同",
         "population": "2,695,598",
         "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2008-06-10_3000x1000_chicago_skyline.jpg/240px-2008-06-10_3000x1000_chicago_skyline.jpg",
@@ -30,6 +34,8 @@
     {
       "type": "Feature",
       "properties": {
+        "longitude": 115.3559078,
+        "latitude": 33.8767533,
         "city": "赵村乡",
         "population": "2,100,263",
         "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Aerial_views_of_the_Houston%2C_Texas%2C_28005u.jpg/240px-Aerial_views_of_the_Houston%2C_Texas%2C_28005u.jpg",
@@ -43,6 +49,8 @@
     {
       "type": "Feature",
       "properties": {
+        "longitude": 115.3777546,
+        "latitude": 33.847735,
         "city": "罗庄",
         "population": "1,445,632",
         "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Downtown_Phoenix_Aerial_Looking_Northeast.jpg/207px-Downtown_Phoenix_Aerial_Looking_Northeast.jpg",
@@ -56,10 +64,10 @@
     {
       "type": "Feature",
       "properties": {
-        "city": "桃源县",
-        "population": "1,445,632",
-        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Downtown_Phoenix_Aerial_Looking_Northeast.jpg/207px-Downtown_Phoenix_Aerial_Looking_Northeast.jpg",
-        "state": "Arizona"
+        "longitude": 111.49541,
+        "latitude": 28.90869,
+        "match": "胡乐乐",
+        "city": "桃源县"
       },
       "geometry": {
         "coordinates": [111.49541, 28.90869],

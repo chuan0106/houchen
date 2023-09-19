@@ -3,7 +3,7 @@ import { useDispatch } from 'umi';
 import { connect } from 'dva';
 import { Map, LayerProps, Marker, Popup, MapRef, MapLayerMouseEvent } from 'react-map-gl';
 import { viewStateType, MarkerProperties } from '@/interface/houchen/map'
-
+// import BaseLayer from './lib/baseLayer/baseLayer';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ControlPanel from './control-panel';
 import Layers from './Layers'
@@ -54,9 +54,16 @@ type props = {
 const App: FC<props> = ({ viewState, popupInfo }) => {
     const dispatch = useDispatch();
     const mapRef = useRef<MapRef>(null);
-    const [mapStyle, setMapStyle] = useState(null);
+
+    const [markers, setMarkers] = useState([]); // 存储标签的坐标
+    const [selectedMarker, setSelectedMarker] = useState(null); // 存储当前选中的标签
+    const [distance, setDistance] = useState(null); // 存储计算出的距离
+
+    // const [mapStyle, setMapStyle] = useState(null);
     // const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
-    console.log(popupInfo, 'popupInfo');
+
+
+    console.log(viewState);
 
     const initMapCallback = (even: MapLayerMouseEvent) => {
 
@@ -92,6 +99,9 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
         });
     }, [])
 
+
+
+
     return (
         <>
             <Map
@@ -102,7 +112,8 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
                 // onMove={evt => setViewState(evt.viewState)}
                 onMove={onMove}
                 onLoad={initMapCallback}
-                mapStyle={mapStyle && mapStyle.toJS()}
+                // mapStyle={mapStyle && mapStyle.toJS()}
+                mapStyle={'mapbox://styles/chuan0106/clmg4svy7019o01r6a9kr4s3p'}
                 styleDiffing
                 mapboxAccessToken={MAPBOX_TOKEN}
                 onClick={onClick}
@@ -121,14 +132,15 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
                         closeOnClick={false}
                         maxWidth={'100%'}
                     >
-                        <div style={{ width: '400px', height: '100%' }}>
+                        <div style={{ width: '335px', height: '100%' }}>
                             {/* {popupInfo?.name} {popupInfo?.property} */}
                             <Message message={popupInfo} title='详情' />
                         </div>
                     </Popup>
                 )}
             </Map>
-            <ControlPanel onChange={setMapStyle} />
+
+            {/* <ControlPanel onChange={setMapStyle} /> */}
         </>
     );
 }

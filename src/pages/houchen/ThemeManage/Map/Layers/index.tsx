@@ -20,7 +20,7 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, map }) => {
             '首页': () => {
                 mapInfo.getMap().easeTo({
                     zoom: 13,
-                    pitch: 62,
+                    // pitch: 62,
                     longitude: 115.4109739,
                     latitude: 33.8762738,
                     minZoom: 12,
@@ -30,7 +30,7 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, map }) => {
             },
             '后陈': () => {
                 mapInfo.getMap().easeTo({
-                    center: [115.4109739, 33.8762738],
+                    center: [115.4059739, 33.8782738],
                     zoom: 16,
                     duration: 2000,
                 });

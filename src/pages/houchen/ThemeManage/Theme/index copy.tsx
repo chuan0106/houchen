@@ -1,6 +1,5 @@
 import { FC, useEffect, Fragment, memo } from 'react';
 import styles from './style.less'
-import { MarkerProperties } from '@/interface/houchen/map'
 import { connect } from 'dva';
 
 import * as echarts from 'echarts/core';
@@ -10,21 +9,15 @@ import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, LegendComponent, TooltipComponent]);
 import { dispatchType } from '@/interface/houchen/map'
-import { homeData, houchenData } from '@/pages/data/map'
+
 
 import Table from '@/pages/Components/Table'
 import cunneijingji from '@/assets/houchen/icon/jingji.png'
 import cunneirenshu from '@/assets/houchen/icon/renshu.png'
 import hexinrenyuan from '@/assets/houchen/icon/hexinrenyuan.png'
-import lebao from '@/assets/person/lebao.jpg'
-
-import huangguan from '@/assets/icon/common/huangguan.png'
-import yinguan from '@/assets/icon/common/yinguan.png'
-import tongguan from '@/assets/icon/common/tongguan.png'
-
 import mapData from '../../data/home.json'
 
-
+import { homeData, houchenData } from '@/pages/data/map'
 
 const contentStyle = {
     overflow: 'hidden', textOverflow: 'ellipsis'
@@ -118,7 +111,6 @@ type DataSourceItemType = {
     gold: number;
     property: string;
     hobbies: string;
-    image?: string;
 }
 
 const dataSource: DataSourceItemType[] = [
@@ -134,7 +126,6 @@ const dataSource: DataSourceItemType[] = [
     {
         match: '胡乐乐',
         name: '胡乐乐',
-        image: lebao,
         age: '28',
         sex: '男',
         gold: 376100,
@@ -170,12 +161,12 @@ const dataSource: DataSourceItemType[] = [
     },
     {
         match: '黄艳波',
-        name: '黄艳波',
+        name: '阿黄',
         age: '27',
         sex: '男',
         gold: 7618,
-        property: '一辆新款轿车，222高端电脑',
-        hobbies: '没有最爱 只222有更爱'
+        property: '一辆新款轿车，高端电脑',
+        hobbies: '没有最爱 只有更爱'
     },
 ];
 
@@ -185,9 +176,8 @@ const rankedData = [...dataSource].sort((a, b) => b.gold - a.gold).map((item, in
 type Props = {
     map: any,
     dispatch: (action: dispatchType) => void;
-    popupInfo: MarkerProperties;
 }
-const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
+const Index: FC<Props> = ({ map, dispatch }) => {
     useEffect(() => {
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
@@ -286,9 +276,7 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
             title: '排名',
             dataIndex: 'rank',
             key: 'rank',
-            render: (text: any) => <div title={text} className={styles.ranking} style={contentStyle}>
-                {text == 1 || text == 2 || text == 3 ? (<img src={text == 1 ? huangguan : text == 2 ? yinguan : text == 3 ? tongguan : null} />) : text}
-            </div>
+            render: (text: any) => <div title={text} style={{ whiteSpace: 'nowrap', ...contentStyle }}>{text}</div>,
         },
         {
             title: '姓名',
@@ -328,7 +316,7 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
         const newRecord = [...homeData.features, ...houchenData.features].find(name => name.properties.match === record.match)
 
 
-        console.log(newRecord, 'newRecord', [...homeData.features, ...houchenData.features]);
+        console.log(newRecord, 'newRecord');
 
 
 
@@ -343,17 +331,19 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
             // const { longitude, latitude, zoom } = newRecord
             const { geometry: { coordinates: center } } = newRecord
 
-            console.log({ ...newRecord }, 'newRecord');
+            map.flyTo({ center, zoom: 10, duration: 1000 });
 
-            map.flyTo({ center, zoom: 15, duration: 1000 });
+
+            console.log({ ...record, ...newRecord.properties }, 22222222);
+
+            // 修改弹窗
             const setPopupInfoAction: dispatchType = {
                 type: 'houchenModel/setPopupInfo',
-                payload: { ...record, ...newRecord.properties }
+                payload: { ...newRecord.properties }
             };
             dispatch(setPopupInfoAction)
         }
     }
-
     return (
         <div className={styles.theme}>
             <div className={styles.container}>
@@ -420,21 +410,21 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
                                     <Fragment key={i}>
                                         <div className={styles.box}>
                                             <div className={styles.title}>{i + 1}.{industry.name}</div>
-                                            <div className={styles.production}>
+                                            <div key={'zhudao' + 'k'} className={styles.production}>
                                                 <div className={styles.value}>
                                                     <span className={styles.num}>{industry.output_value}</span>
                                                     <span className={styles.unit}>元</span>
                                                 </div>
                                                 <div className={styles.type} style={{ color: 'rgb(184, 233, 134)' }}>产值</div>
                                             </div>
-                                            <div className={styles.production}>
+                                            <div key={'zhudao' + 'k'} className={styles.production}>
                                                 <div className={styles.value}>
                                                     <span className={styles.num}>{industry.yoy}</span>
                                                     <span className={styles.unit}>%</span>
                                                 </div>
                                                 <div className={styles.type} style={{ color: 'rgb(255, 246, 135)' }}>同比</div>
                                             </div>
-                                            <div className={styles.production}>
+                                            <div key={'zhudao' + 'k'} className={styles.production}>
                                                 <div className={styles.value}>
                                                     <span className={styles.num}>{toFixed(industry.output_value / totalOutputValue * 100, 2)}</span>
                                                     <span className={styles.unit}>%</span>
@@ -448,8 +438,33 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
                                 )
                             })
                             }
+                            {/* <div className={styles.leading_industry}>
+                                <div className={styles.title}>有色金属</div>
+                                <div className={styles.production}>
+                                    <div className={styles.value}>
+                                        <span className={styles.num}>271.96</span>
+                                        <span className={styles.unit}>亿元</span>
+                                    </div>
+                                    <div style={{ textAlign: 'center', color: 'rgb(184, 233, 134)' }}>产值</div>
+                                </div>
+                                <div className={styles.production}>
+                                    <div className={styles.value}>
+                                        <span className={styles.num}>26.7</span>
+                                        <span className={styles.unit}>%</span>
+                                    </div>
+                                    <div style={{ textAlign: 'center', color: 'rgb(255, 246, 135);' }}>同比</div>
+                                </div>
+                                <div className={styles.production}>
+                                    <div className={styles.value}>
+                                        <span className={styles.num}>26.4</span>
+                                        <span className={styles.unit}>%</span>
+                                    </div>
+                                    <div style={{ textAlign: 'center', color: 'rgb(221, 162, 126)' }}>金币占比</div>
+                                </div>
+                            </div> */}
                         </div>
                     </div>
+
                     {/* 土豪排行榜 */}
                     <div className={styles.theme_box}>
                         <div className={styles.head}>
@@ -477,8 +492,7 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
 
 function mapStateToProps({ houchenModel }: any) {
     return {
-        map: houchenModel.map,
-        popupInfo: houchenModel.popupInfo
+        map: houchenModel.map
     }
 }
 export default connect(mapStateToProps)(memo(Index));

@@ -6,10 +6,8 @@ import ProfileAsideCommonBox from '@/components/ProfileAsideCommonBox'
 import { boxContentArr } from '@/pages/data/companys/data'
 
 import * as echarts from 'echarts';
-const Index = () =>
-{
-    useEffect(() =>
-    {
+const Index = () => {
+    useEffect(() => {
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
         var option;
@@ -23,8 +21,7 @@ const Index = () =>
                     color: '#939393',
                     fontSize: '14'
                 },
-                formatter: function (params)
-                {
+                formatter: function (params) {
                     return params.name + ": " + params.value + "天"; // 添加单位
                 }
             },
@@ -35,8 +32,7 @@ const Index = () =>
                 show: true,
                 top: 'top',
                 orient: 'horizontal',
-                data: companys.map(function (project)
-                {
+                data: companys.map(function (project) {
                     return {
                         name: project.name,
                         icon: 'pin',
@@ -68,8 +64,7 @@ const Index = () =>
                     labelLine: {
                         show: false
                     },
-                    data: companys.map(function (project)
-                    {
+                    data: companys.map(function (project) {
                         return {
                             name: project.name,
                             value: project.value,
@@ -131,8 +126,7 @@ const Index = () =>
         </div>
     );
 };
-function mapDispatchToProps ({ resume })
-{
+function mapDispatchToProps({ resume }) {
     return {
         resume
     }

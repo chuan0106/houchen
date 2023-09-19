@@ -7,13 +7,15 @@ export interface viewStateType {
     latitude: number;
     minZoom: number;
     maxZoom: number;
+    bearing: number
 }
 
 export interface StateType {
-    menu: string,
-    map: null,
-    viewState: viewStateType,
-    popupInfo: null
+    menu: string;
+    map: null;
+    viewState: viewStateType;
+    popupInfo: null;
+    toolBar: string[];
 }
 
 export interface HouchenModelType {
@@ -27,6 +29,7 @@ export interface HouchenModelType {
         setMap: Reducer<StateType>,
         setViewState: Reducer<StateType>,
         setPopupInfo: Reducer<StateType>,
+        setToolBar: Reducer<StateType>,
     };
 }
 
@@ -34,6 +37,7 @@ export interface HouchenModelType {
 
 // geojson start~
 export interface MarkerProperties {
+    match?: string;
     city: string;
     id: number;
     population: string;
@@ -41,7 +45,7 @@ export interface MarkerProperties {
     state: string;
     latitude: number;
     longitude: number;
-    zoom?: number; // zoom 是可选的字段
+    zoom?: number;
 };
 
 export interface MarkerGeometry {

@@ -9,12 +9,12 @@
         "population": "3,792,621",
         "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/5/57/LA_Skyline_Mountains2.jpg/240px-LA_Skyline_Mountains2.jpg",
         "state": "California",
-        "latitude": 33.88145527617539,
-        "longitude": 115.40743309700258,
+        "latitude": 33.879357162150356,
+        "longitude": 115.40659452710702,
         "zoom": 13
       },
       "geometry": {
-        "coordinates": [115.40743309700258, 33.88145527617539],
+        "coordinates": [115.40659452710702, 33.879357162150356],
         "type": "Point"
       }
     },
@@ -37,13 +37,14 @@
     {
       "type": "Feature",
       "properties": {
+        "match": "郭帅",
         "city": "郭帅家",
         "id": 3,
         "population": "2,695,598",
         "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2008-06-10_3000x1000_chicago_skyline.jpg/240px-2008-06-10_3000x1000_chicago_skyline.jpg",
         "state": "Illinois",
-        "latitude": 33.87739064626102,
         "longitude": 115.40690395257712,
+        "latitude": 33.87739064626102,
         "zoom": 14
       },
       "geometry": {
@@ -107,10 +108,29 @@
         "city": "孙浩",
         "id": 6,
         "population": "1,307,402",
-        "state": "California"
+        "state": "California",
+        "latitude": 115.48629,
+        "longitude": 33.86727
       },
       "geometry": {
         "coordinates": [115.48629, 33.86727],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "match": "黄艳波",
+        "city": "黄艳波",
+        "id": 3,
+        "population": "2,695,598",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2008-06-10_3000x1000_chicago_skyline.jpg/240px-2008-06-10_3000x1000_chicago_skyline.jpg",
+        "state": "Illinois",
+        "longitude": 115.4101998787,
+        "latitude": 33.8805471695
+      },
+      "geometry": {
+        "coordinates": [115.4101998787, 33.8805471695],
         "type": "Point"
       }
     }

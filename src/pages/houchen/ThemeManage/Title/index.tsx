@@ -11,7 +11,7 @@ function time() {
     const currentMonth = date.getMonth() + 1; // 月份从0开始，所以需要加1
     const currentDay = date.getDate();
     let mm = date.getMonth() + 1; //获得月份
-    mm = mm < 10 ? '0' + mm : mm; //月份小于10时，前面加个0(例如9 ->09)天，小时，分钟，秒同理
+    mm = Number(mm < 10 ? '0' + mm : mm)  //月份小于10时，前面加个0(例如9 ->09)天，小时，分钟，秒同理
     let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours(); //小时
     let minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes(); //分钟
     let seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds(); //秒
@@ -21,7 +21,7 @@ function time() {
 function date() {
     let date = new Date();
     let mm = date.getMonth() + 1;
-    mm = mm < 10 ? '0' + mm : mm;
+    mm = Number(mm < 10 ? '0' + mm : mm);
     let day = date.getDate().toString().padStart(2, '0');
     return mm + '/' + day
 }

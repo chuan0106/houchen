@@ -7,13 +7,16 @@ const houchenModel: HouchenModelType = {
         map: null,
         viewState: {
             zoom: 13,
-            pitch: 62,
+            pitch: 0,
             longitude: 115.4109739,
             latitude: 33.8762738,
-            minZoom: 12,
+            minZoom: 11,
             maxZoom: 19,
+            bearing: 7.2
+
         },
-        popupInfo: null
+        popupInfo: null,
+        toolBar: []
 
     },
     effects: {
@@ -44,6 +47,12 @@ const houchenModel: HouchenModelType = {
             return {
                 ...state,
                 popupInfo: payload
+            };
+        },
+        setToolBar(state, { payload }) {
+            return {
+                ...state,
+                toolBar: payload
             };
         },
     },

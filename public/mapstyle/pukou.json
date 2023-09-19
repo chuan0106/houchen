@@ -1,0 +1,543 @@
+{
+  "globe": {
+    "range": [1, 10],
+    "space-color": "hsl(215, 61%, 19%)",
+    "horizon-blend": 0.05,
+    "star-intensity": ["interpolate", ["linear"], ["zoom"], 5, 0.15, 6, 0],
+    "high-color": "hsl(222, 71%, 75%)",
+    "color": "hsla(42, 52%, 94%, 0.69)"
+  },
+  "fog": {
+    "range": [1, 10],
+    "space-color": "transparent",
+    "horizon-blend": 0,
+    "star-intensity": 0,
+    "high-color": "transparent",
+    "color": "transparent"
+  },
+  "settings": {
+    "isPopup": true,
+    "isFog": false,
+    "isGlobe": false,
+    "globeMapStyle": ""
+  },
+  "markerGroups": [],
+  "lights": {
+    "ambientLight": { "color": "#ccc", "intensity": 0.35 },
+    "directionalLight": { "color": "#404040", "intensity": 0.4 },
+    "hemisphereLight": {
+      "skyColor": "#ffffbb",
+      "groundColor": "#080820",
+      "intensity": 0
+    },
+    "pointLigh": [],
+    "spotLight": [],
+    "toneMappingExposure": 1,
+    "toneMapping": false
+  },
+  "version": 8,
+  "name": "pukou_blue_南京浦口",
+  "metadata": {
+    "mapbox:autocomposite": true,
+    "mapbox:type": "default",
+    "maputnik:renderer": "mbgljs"
+  },
+  "center": [115.4159139047282167, 33.806214118637463],
+  "bounds": [
+    115.41334492382, 33.8841959955, 115.41690960688, 33.82114723920001
+  ],
+  "zoom": 8.95,
+  "bearing": 0,
+  "pitch": 0,
+  "sources": {
+    "nanjing_pukou": {
+      "type": "vector",
+      "tiles": [
+        "https://www.dataojocloud.com/data/docitybuilder_pukou/{z}/{x}/{y}.pbf"
+      ],
+      "minZoom": 0,
+      "maxZoom": 24
+    },
+    "water": {
+      "type": "geojson",
+      "data": "https://www.dataojo.com/docloudresource/map_data/docitybuilder/pukou/pukou_water_R.geojson"
+    },
+    "road_1": {
+      "type": "geojson",
+      "data": "https://www.dataojo.com/docloudresource/map_data/docitybuilder/nanjing_pukou/pukou_road_L_1.geojson"
+    },
+    "image": {
+      "type": "raster",
+      "tiles": [
+        "https://www.dataojocity.com/map/v1/tile?map=pukou_image_16_lanhu&x={x}&y={y}&z={z}"
+      ]
+    }
+  },
+  "json": {
+    "building": "https://www.dataojo.com/docloudresource/map_data/docitybuilder/pukou//bounds_file_pukou/pukouConfig.json"
+  },
+  "sprite": "https://www.dataojo.com/docloudresource/map_data/sprites/sprite",
+  "glyphs": "https://www.dataojocloud.com/fonts/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "name": "背景",
+      "category": "背景",
+      "type": "background",
+      "paint": { "background-color": "rgba(9, 26, 56, 1)" }
+    },
+    {
+      "id": "pukou_outside_R",
+      "type": "fill",
+      "name": "外围面",
+      "category": "外围区域",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_outside_county_R",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "fill-color": "rgba(10, 25, 54, 1)",
+        "fill-outline-color": "rgba(21, 47, 97, 1)"
+      }
+    },
+    {
+      "id": "pukou_boundary_town_R",
+      "type": "fill",
+      "name": "乡镇街面",
+      "category": "行政区划",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_town_R",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "fill-color": "rgba(10, 25, 54, 1)",
+        "fill-outline-color": "rgba(21, 47, 97, 0)"
+      }
+    },
+    {
+      "id": "pukou_boundary_county_R",
+      "type": "fill",
+      "name": "区县界面",
+      "category": "行政区划",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_county_R",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "fill-color": "rgba(10, 25, 54, 1)",
+        "fill-outline-color": "rgba(21, 47, 97, 0)"
+      }
+    },
+    {
+      "id": "image",
+      "name": "影像",
+      "category": "影像",
+      "type": "raster",
+      "source": "image",
+      "layout": { "visibility": "visible" }
+    },
+    {
+      "id": "pukou_road_L_3",
+      "type": "fill",
+      "name": "三级道路",
+      "tsource": "road_1",
+      "category": "道路",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_road_R_3",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(34, 57, 73, 1)" },
+      "filter": ["none"]
+    },
+    {
+      "id": "pukou_road_L_2",
+      "type": "fill",
+      "tsource": "road_1",
+      "name": "二级道路",
+      "category": "道路",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_road_R_2",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(34, 57, 73, 1)" },
+      "filter": ["none"]
+    },
+    {
+      "id": "pukou_road_L_1",
+      "type": "fill",
+      "name": "一级道路",
+      "tsource": "road_1",
+      "category": "道路",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_road_R_1",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(34, 57, 73, 1)" },
+      "filter": ["none"]
+    },
+    {
+      "id": "pukou_greenland_R_1",
+      "type": "fill",
+      "name": "一级绿地",
+      "category": "绿地",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_vegetation_R",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(7, 56, 72, 1)" }
+    },
+    {
+      "id": "pukou_water_R_1",
+      "type": "fill",
+      "name": "一级水系",
+      "tsource": "water",
+      "category": "水系",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_water_R",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "fill-color": "rgba(4, 64, 98, 1)",
+        "fill-outline-color": "rgba(4, 64, 98, 1)"
+      }
+    },
+    {
+      "id": "pukou_boundary_county_L",
+      "type": "line",
+      "name": "区县界线",
+      "category": "行政区划",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_county_L",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "line-color": "rgba(32, 65, 134, 1)",
+        "line-dasharray": [4, 4]
+      }
+    },
+    {
+      "id": "pukou_labelline_3",
+      "type": "symbol",
+      "name": "三级道路注记线",
+      "category": "道路",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_road_label_L_3",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{PathName}",
+        "text-size": 14,
+        "symbol-placement": "line"
+      },
+      "paint": {
+        "icon-color": "rgba(247, 243, 243, 1)",
+        "text-color": "rgba(236, 240, 247, 1)",
+        "text-halo-color": "rgba(2, 36, 62, 1)",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "pukou_labelline_2-12",
+      "type": "symbol",
+      "name": "二级道路注记线",
+      "category": "道路",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_road_label_L_2",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{PathName}",
+        "text-size": 13,
+        "symbol-placement": "line"
+      },
+      "paint": {
+        "icon-color": "rgba(247, 243, 243, 1)",
+        "text-color": "rgba(236, 240, 247, 1)",
+        "text-halo-color": "rgba(2, 36, 62, 1)",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "pukou_labelline_L_1-10",
+      "type": "symbol",
+      "name": "一级道路注记线",
+      "category": "道路",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_road_label_L_1",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "text-field": "{PathName}",
+        "text-size": 11,
+        "symbol-placement": "line"
+      },
+      "paint": {
+        "icon-color": "rgba(247, 243, 243, 1)",
+        "text-color": "rgba(236, 240, 247, 1)",
+        "text-halo-color": "rgba(2, 36, 62, 1)",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "pukou_building_R-14",
+      "type": "fill-extrusion",
+      "name": "楼块",
+      "category": "建筑",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_building_R",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": { "visibility": "visible" },
+      "paint": {
+        "fill-extrusion-color": "rgba(9, 30, 60, 0.73)",
+        "fill-extrusion-height": ["get", "HEIGHT"]
+      },
+      "_ui": { "mode": "mapbox" },
+      "roof": {
+        "id": "pukou_building_R-14_building-base",
+        "type": "fill-extrusion",
+        "name": "楼块",
+        "category": "建筑",
+        "source": "nanjing_pukou",
+        "source-layer": "pukou_building_R",
+        "minzoom": 0,
+        "maxzoom": 24,
+        "layout": { "visibility": "none" },
+        "paint": {
+          "fill-extrusion-color": "rgba(9, 30, 60, 0.73)",
+          "fill-extrusion-height": ["get", "HEIGHT"],
+          "fill-extrusion-base": ["get", "HEIGHT"]
+        },
+        "_ui": { "mode": "mapbox" }
+      }
+    },
+    {
+      "id": "poi_town",
+      "type": "symbol",
+      "name": "乡镇名",
+      "category": "兴趣点",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_poi_town",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{Name}",
+        "visibility": "visible",
+        "text-anchor": "bottom-left",
+        "text-offset": [0.5, 0.5],
+        "text-font": ["", ""],
+        "text-size": 14,
+        "icon-image": "circle-12",
+        "text-justify": "center"
+      },
+      "paint": {
+        "text-halo-color": "rgba(0, 32, 66, 1)",
+        "text-color": "rgba(236, 242, 251, 1)",
+        "icon-color": "rgba(255, 255, 255, 1)",
+        "icon-opacity": 1,
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 1,
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "poi_county",
+      "type": "symbol",
+      "name": "区县名",
+      "category": "兴趣点",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_poi_county",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "visibility": "visible",
+        "text-anchor": "bottom-left",
+        "text-offset": [0.5, 0.5],
+        "text-font": ["", ""],
+        "text-size": 14,
+        "icon-image": "circle-stroked-12",
+        "text-justify": "center"
+      },
+      "paint": {
+        "text-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(3, 51, 101, 1)",
+        "text-opacity": 1,
+        "text-halo-width": 2,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      "id": "pukou_poi_outside",
+      "type": "symbol",
+      "name": "外围地名",
+      "category": "外围区域",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_outside_poi_county",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{Name}",
+        "visibility": "visible",
+        "text-anchor": "bottom-left",
+        "text-offset": [0.5, 0.5],
+        "text-font": ["", ""],
+        "text-size": 14,
+        "icon-image": "",
+        "text-justify": "center"
+      },
+      "paint": {
+        "text-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(3, 51, 101, 1)",
+        "text-opacity": 1,
+        "text-halo-width": 2,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      "id": "pukou_poi_community",
+      "type": "symbol",
+      "name": "社区名",
+      "category": "兴趣点",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_poi_community",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "text-size": 12,
+        "icon-image": "circle-12",
+        "text-justify": "left",
+        "text-anchor": "left",
+        "text-allow-overlap": false,
+        "text-keep-upright": true,
+        "text-optional": false,
+        "visibility": "visible",
+        "text-transform": "lowercase",
+        "text-offset": [0.5, 0]
+      },
+      "paint": {
+        "text-halo-color": "rgba(0, 32, 66, 1)",
+        "text-color": "rgba(236, 242, 251, 1)",
+        "icon-color": "rgba(255, 255, 255, 1)",
+        "icon-opacity": 1,
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 1,
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "pukou_poi_hospital",
+      "type": "symbol",
+      "name": "医院名",
+      "category": "兴趣点",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_poi_hospital",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "text-size": 12,
+        "icon-image": "circle-12",
+        "text-justify": "left",
+        "text-anchor": "left",
+        "text-allow-overlap": false,
+        "text-keep-upright": true,
+        "text-optional": false,
+        "visibility": "visible",
+        "text-transform": "lowercase",
+        "text-offset": [0.5, 0]
+      },
+      "paint": {
+        "text-halo-color": "rgba(0, 32, 66, 1)",
+        "text-color": "rgba(236, 242, 251, 1)",
+        "icon-color": "rgba(255, 255, 255, 1)",
+        "icon-opacity": 1,
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 1,
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "pukou_poi_school",
+      "type": "symbol",
+      "name": "学校名",
+      "category": "兴趣点",
+      "source": "nanjing_pukou",
+      "source-layer": "pukou_poi_school",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "text-field": "{name}",
+        "text-size": 12,
+        "icon-image": "circle-12",
+        "text-justify": "left",
+        "text-anchor": "left",
+        "text-allow-overlap": false,
+        "text-keep-upright": true,
+        "text-optional": false,
+        "visibility": "visible",
+        "text-transform": "lowercase",
+        "text-offset": [0.5, 0]
+      },
+      "paint": {
+        "text-halo-color": "rgba(0, 32, 66, 1)",
+        "text-color": "rgba(236, 242, 251, 1)",
+        "icon-color": "rgba(255, 255, 255, 1)",
+        "icon-opacity": 1,
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 1,
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "three-sky",
+      "data": [
+        "https://www.dataojo.com/docloudresource/image/baseSceneEditor/sky/sky1/posx.jpg",
+        "https://www.dataojo.com/docloudresource/image/baseSceneEditor/sky/sky1/negx.jpg",
+        "https://www.dataojo.com/docloudresource/image/baseSceneEditor/sky/sky1/posy.jpg",
+        "https://www.dataojo.com/docloudresource/image/baseSceneEditor/sky/sky1/negy.jpg",
+        "https://www.dataojo.com/docloudresource/image/baseSceneEditor/sky/sky1/posz.jpg",
+        "https://www.dataojo.com/docloudresource/image/baseSceneEditor/sky/sky1/negz.jpg"
+      ],
+      "visible": true,
+      "extended": "three",
+      "layer": "sky",
+      "_ui": {}
+    },
+    {
+      "id": "three-risingLine",
+      "bounds": [
+        115.41334492382, 33.8841959955, 115.41690960688, 33.82114723920001
+      ],
+      "num": 30,
+      "lineWidth": 2,
+      "visible": true,
+      "extended": "three",
+      "layer": "risingLine",
+      "_ui": {}
+    }
+  ],
+  "id": "nanjing_pukou_blue",
+  "owner": "",
+  "logo": {
+    "visible": true,
+    "url": "./logo/logo.png",
+    "width": 200,
+    "height": 40,
+    "position": "right"
+  },
+  "navigation": { "visible": false }
+}

@@ -1,0 +1,208 @@
+.theme {
+    position: relative;
+
+    .container {
+        position: absolute;
+        top: 20px;
+        left: 15px;
+
+        .core {
+            width: 520px;
+            // padding: 15px;
+            // background: url('@/assets/houchen/bg.png') no-repeat;
+            // background-size: 100% 100%;
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
+
+            .theme_box {
+                // background: #fff;
+                border-radius: 2px;
+                margin-bottom: 10px;
+                background: url('@/assets/houchen/bg.png') no-repeat;
+                background-size: 100% 100%;
+                // font-size: 16px;
+                // color: #222226;
+                font-size: 24px;
+                color: #fff;
+                pointer-events: auto;
+
+
+                .head {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    position: relative;
+                    // padding: 3px 5px;
+                    border-bottom: 1px solid #e8e8ed;
+                    padding: 5px 16px;
+                    font-weight: 500;
+
+                    .head_loader {
+                        padding: 5px;
+                        border-radius: 50%;
+                        height: 36px;
+                        width: 36px;
+                        animation: rotate_3922 1.2s linear infinite;
+                        background-color: #9b59b6;
+                        background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
+
+
+
+
+                        span {
+                            position: absolute;
+                            border-radius: 50%;
+                            height: 100%;
+                            width: 100%;
+                            background-color: #9b59b6;
+                            background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
+                        }
+
+                        span:nth-of-type(1) {
+                            filter: blur(5px);
+                        }
+
+                        span:nth-of-type(2) {
+                            filter: blur(10px);
+                        }
+
+                        span:nth-of-type(3) {
+                            filter: blur(25px);
+                        }
+
+                        span:nth-of-type(4) {
+                            filter: blur(50px);
+                        }
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 5px;
+                            left: 5px;
+                            right: 5px;
+                            bottom: 5px;
+                            background-color: #fff;
+                            border: solid 5px #ffffff;
+                            border-radius: 50%;
+                        }
+
+                        @keyframes rotate_3922 {
+                            from {
+                                transform: translate(0%, 0%) rotate(0deg);
+                            }
+
+                            to {
+                                transform: translate(0%, 0%) rotate(360deg);
+                            }
+                        }
+                    }
+
+                    .head_text {
+                        font-weight: bolder;
+                    }
+                }
+
+                .content {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+                    padding: 16px;
+                    font-size: 16px;
+
+                    .box {
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        // text-align: center;
+                        width: 150px;
+                        height: 50px;
+                        background: url('@/assets/houchen/itembg.png') no-repeat;
+                        background-size: 100% 100%;
+
+                        .text {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-around;
+                            align-items: center;
+                        }
+
+                        img {
+                            width: 40px;
+                            height: 40px;
+                        }
+                    }
+
+
+
+                }
+
+                // 三大主导产业
+
+
+                .leading_industry {
+                    width: 100%;
+                    padding: 10px;
+
+                    .box {
+                        display: flex;
+                        justify-content: space-around;
+                        padding-bottom: 5px;
+                        margin-bottom: 5px;
+                        cursor: pointer;
+                        border-bottom: 1px solid rgb(216, 208, 208);
+                    }
+
+                    .box:last-child {
+                        padding-bottom: 0px;
+                        margin-bottom: 0px;
+                        border-bottom: 0;
+                    }
+
+                    .title {
+                        font-size: 18px;
+                        letter-spacing: 2px;
+                        font-weight: 400;
+                    }
+
+                    .production {
+                        position: relative;
+
+                        .value {
+                            font-size: 16px;
+                            text-align: center;
+
+                            .num {
+                                font-size: 16px;
+                            }
+
+                            .unit {
+                                margin-left: 3px;
+                                font-size: 14px;
+                            }
+                        }
+
+                    }
+
+                    .type {
+                        text-align: center;
+                        font-size: 16px;
+                    }
+                }
+
+                // 土豪排行榜
+                .table {
+                    position: relative;
+
+                    .ranking {
+                        img {
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

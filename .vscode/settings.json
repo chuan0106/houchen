@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "aaadds"
+    ],
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    "typescript.tsserver.autoImportSuggestions.enabled": false,
+    "typescript.validate.enable": true,
+    "exclude": [
+        "node_modules", // 排除 node_modules 文件夹
+        "**/*dva*" // 排除包含 "dva" 的文件或文件夹
+    ]
+}

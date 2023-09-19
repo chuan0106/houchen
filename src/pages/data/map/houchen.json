@@ -1,0 +1,138 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "city": "川哥家",
+        "id": 1,
+        "population": "3,792,621",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/5/57/LA_Skyline_Mountains2.jpg/240px-LA_Skyline_Mountains2.jpg",
+        "state": "California",
+        "latitude": 33.879357162150356,
+        "longitude": 115.40659452710702,
+        "zoom": 13
+      },
+      "geometry": {
+        "coordinates": [115.40659452710702, 33.879357162150356],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "city": "小高家",
+        "id": 1,
+        "population": "1,526,006",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Philly_skyline.jpg/240px-Philly_skyline.jpg",
+        "state": "Pennsylvania",
+        "latitude": 33.877545715298425,
+        "longitude": 115.40842410370783
+      },
+      "geometry": {
+        "coordinates": [115.40842410370783, 33.877545715298425],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "match": "郭帅",
+        "city": "郭帅家",
+        "id": 3,
+        "population": "2,695,598",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2008-06-10_3000x1000_chicago_skyline.jpg/240px-2008-06-10_3000x1000_chicago_skyline.jpg",
+        "state": "Illinois",
+        "longitude": 115.40690395257712,
+        "latitude": 33.87739064626102,
+        "zoom": 14
+      },
+      "geometry": {
+        "coordinates": [115.40690395257712, 33.87739064626102],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "city": "老威家",
+        "id": 4,
+        "population": "2,100,263",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Aerial_views_of_the_Houston%2C_Texas%2C_28005u.jpg/240px-Aerial_views_of_the_Houston%2C_Texas%2C_28005u.jpg",
+        "state": "Texas",
+        "latitude": 33.87712842208009,
+        "longitude": 115.40813909029345,
+        "zoom": 15
+      },
+      "geometry": {
+        "coordinates": [115.40813909029345, 33.87712842208009],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "city": "老洋家",
+        "id": 5,
+        "population": "1,445,632",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Downtown_Phoenix_Aerial_Looking_Northeast.jpg/207px-Downtown_Phoenix_Aerial_Looking_Northeast.jpg",
+        "state": "Arizona",
+        "latitude": 33.8777866561109,
+        "longitude": 115.40540869847518,
+        "zoom": 10
+      },
+      "geometry": {
+        "coordinates": [115.40540869847518, 33.8777866561109],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "city": "少主家",
+        "id": 6,
+        "population": "1,307,402",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/5/53/US_Navy_110604-N-NS602-574_Navy_and_Marine_Corps_personnel%2C_along_with_community_leaders_from_the_greater_San_Diego_area_come_together_to_commemora.jpg/240px-US_Navy_110604-N-NS602-574_Navy_and_Marine_Corps_personnel%2C_along_with_community_leaders_from_the_greater_San_Diego_area_come_together_to_commemora.jpg",
+        "state": "California",
+        "latitude": 33.87783725151401,
+        "longitude": 115.40898201876581
+      },
+      "geometry": {
+        "coordinates": [115.40898201876581, 33.87783725151401],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "city": "孙浩",
+        "id": 6,
+        "population": "1,307,402",
+        "state": "California",
+        "latitude": 115.48629,
+        "longitude": 33.86727
+      },
+      "geometry": {
+        "coordinates": [115.48629, 33.86727],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "match": "黄艳波",
+        "city": "黄艳波",
+        "id": 3,
+        "population": "2,695,598",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2008-06-10_3000x1000_chicago_skyline.jpg/240px-2008-06-10_3000x1000_chicago_skyline.jpg",
+        "state": "Illinois",
+        "longitude": 115.4101998787,
+        "latitude": 33.8805471695
+      },
+      "geometry": {
+        "coordinates": [115.4101998787, 33.8805471695],
+        "type": "Point"
+      }
+    }
+  ]
+}

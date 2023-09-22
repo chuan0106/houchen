@@ -16,6 +16,7 @@ export interface StateType {
     viewState: viewStateType;
     popupInfo: null;
     toolBar: string[];
+    layerActive: null;
 }
 
 export interface HouchenModelType {
@@ -30,6 +31,7 @@ export interface HouchenModelType {
         setViewState: Reducer<StateType>,
         setPopupInfo: Reducer<StateType>,
         setToolBar: Reducer<StateType>,
+        setLayerActive: Reducer<StateType>,
     };
 }
 
@@ -70,3 +72,12 @@ export interface dispatchType {
     type: string;
     payload: Record<string, any>;
 }
+
+
+
+
+
+
+
+
+

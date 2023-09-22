@@ -5,6 +5,7 @@ import { Map, LayerProps, Marker, Popup, MapRef, MapLayerMouseEvent } from 'reac
 import { viewStateType, MarkerProperties } from '@/interface/houchen/map'
 // import BaseLayer from './lib/baseLayer/baseLayer';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { throttle } from '@/utils/js/methods'
 import ControlPanel from './control-panel';
 import Layers from './Layers'
 import Message from './Message'
@@ -47,25 +48,15 @@ export const unclusteredPointLayer: LayerProps = {
 };
 
 type props = {
-    viewState: viewStateType,
-    popupInfo: MarkerProperties
+    viewState: viewStateType;
+    popupInfo: MarkerProperties;
 }
 
 const App: FC<props> = ({ viewState, popupInfo }) => {
     const dispatch = useDispatch();
     const mapRef = useRef<MapRef>(null);
 
-    const [markers, setMarkers] = useState([]); // 存储标签的坐标
-    const [selectedMarker, setSelectedMarker] = useState(null); // 存储当前选中的标签
-    const [distance, setDistance] = useState(null); // 存储计算出的距离
-
-    // const [mapStyle, setMapStyle] = useState(null);
-    // const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null);
-
-
-    console.log(viewState);
-
-    const initMapCallback = (even: MapLayerMouseEvent) => {
+    const initMapCallback: any = (even: MapLayerMouseEvent) => {
 
         const map = even?.target
         if (map) {
@@ -75,8 +66,40 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
             });
             map.on('click', (e: MapLayerMouseEvent) => {
                 console.log(e);
-
             })
+
+            // 当鼠标移入地图时触发
+            const throttledMouseMove = throttle((event) => {
+                let lastHoveredLayerId = null;
+                const features = map.queryRenderedFeatures(event.point);
+
+                // 如果没有找到任何特性，清除上次的悬停状态并退出
+                if (!features.length) {
+                    if (lastHoveredLayerId) {
+                        lastHoveredLayerId = null;
+                    }
+                    // console.log('没找到任何线索', 222222222, lastHoveredLayerId);
+                    dispatch({
+                        type: 'houchenModel/setLayerActive',
+                        payload: null
+                    });
+                    return;
+                }
+
+                // 获取当前悬停的图层ID
+                const currentHoveredLayerId = features[0].layer.id;
+
+                // 如果当前悬停的图层ID与上次的不同，则打印并更新lastHoveredLayerId
+                if (lastHoveredLayerId !== currentHoveredLayerId) {
+                    console.log(`鼠标现在悬停在图层：${currentHoveredLayerId}`);
+                    lastHoveredLayerId = currentHoveredLayerId;
+                    dispatch({
+                        type: 'houchenModel/setLayerActive',
+                        payload: currentHoveredLayerId
+                    });
+                }
+            }, 20);
+            map.on('mousemove', throttledMouseMove);
         }
     }
 
@@ -99,9 +122,6 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
         });
     }, [])
 
-
-
-
     return (
         <>
             <Map
@@ -113,7 +133,7 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
                 onMove={onMove}
                 onLoad={initMapCallback}
                 // mapStyle={mapStyle && mapStyle.toJS()}
-                mapStyle={'mapbox://styles/chuan0106/clmg4svy7019o01r6a9kr4s3p'}
+                mapStyle={'mapbox://styles/mapbox/streets-v11'}
                 styleDiffing
                 mapboxAccessToken={MAPBOX_TOKEN}
                 onClick={onClick}
@@ -149,6 +169,7 @@ function mapStateToProps({ houchenModel }: any) {
     return {
         viewState: houchenModel.viewState,
         popupInfo: houchenModel.popupInfo,
+
     }
 }
 export default connect(mapStateToProps)(App);

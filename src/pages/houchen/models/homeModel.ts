@@ -3,20 +3,21 @@ import { HouchenModelType } from '@/interface/houchen/map'
 const houchenModel: HouchenModelType = {
     namespace: 'houchenModel',
     state: {
-        menu: '首页',
-        map: null,
-        viewState: {
+        menu: '首页', // 模块
+        map: null, // 地图
+        viewState: {  // 地图位置
             zoom: 13,
             pitch: 0,
             longitude: 115.4109739,
             latitude: 33.8762738,
-            minZoom: 11,
+            minZoom: 9,
             maxZoom: 19,
             bearing: 7.2
 
         },
-        popupInfo: null,
-        toolBar: []
+        popupInfo: null, // 弹窗
+        toolBar: [], // 工具栏
+        layerActive: null // 活跃的图层
 
     },
     effects: {
@@ -53,6 +54,12 @@ const houchenModel: HouchenModelType = {
             return {
                 ...state,
                 toolBar: payload
+            };
+        },
+        setLayerActive(state, { payload }) {
+            return {
+                ...state,
+                layerActive: payload
             };
         },
     },

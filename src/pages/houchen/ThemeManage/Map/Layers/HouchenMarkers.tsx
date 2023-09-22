@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Marker } from 'react-map-gl';
 import { connect } from 'dva';
-import { houchenData } from './data/main'
+import { houchenData } from '@/pages/data/map'
 import { MarkerFeature } from '@/interface/houchen/map'
 
 import chuan from '@/assets/person/chuan.jpg'

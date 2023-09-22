@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>坐标转换示例</title>
+    <!-- 引入 Proj4js 的 CDN 资源 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+</head>
+
+<body>
+
+    <script>
+        // 定义投影坐标系和经纬度坐标系
+        proj4.defs("EPSG:3857", "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs");
+        proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+
+        let a = `
+        12809044.70,3967938.72,
+        12876162.38,4017295.45,
+        12876162.38,4012667.60,
+        12876140.45,4012727.52,
+        12876087.49,4012761.44,
+        12876021.12,4012773.68,
+        12875453.33,4012755.67,
+        12875306.94,4012758.00,
+        12875229.87,4012780.41,
+        12875214.93,4012836.79,
+        12875234.00,4012947.56,
+        12874713.35,4013240.08,
+        12874562.32,4013785.55,
+        12874271.04,4014503.97,
+        12874277.35,4014816.66,`
+
+        let b = [];
+
+        // 将逗号分隔的坐标字符串拆分成坐标对
+        const coordinates = a.split('\n').filter(coord => coord.trim() !== '');
+
+        // 将每个坐标对转换为经纬度坐标并存储在数组 b 中
+        coordinates.forEach(coord =>
+        {
+            const [x, y] = coord.split(',').map(parseFloat);
+            const convertedCoordinates = proj4("EPSG:3857", "EPSG:4326", [x, y]);
+            b.push(convertedCoordinates);
+        });
+
+        // 打印结果
+        console.log(b);
+    </script>
+
+</body>
+
+</html>

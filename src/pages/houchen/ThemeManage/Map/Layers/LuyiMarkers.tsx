@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { connect } from 'dva';
 import { Source, Marker, Layer } from 'react-map-gl';
 import { getDistance } from 'geolib';
@@ -8,7 +8,7 @@ import { toolBarType } from '@/interface/houchen'
 import { MarkerFeature } from '@/interface/houchen/map'
 import Pin from '../Pin';
 
-import { homeData, houchenData } from '@/pages/data/map'
+import { homeData, houchenData, luyiData, bozhouData, citysData } from '@/pages/data/map'
 
 import chuan from '@/assets/person/chuan.jpg'
 import gao from '@/assets/person/gao.jpg'
@@ -30,6 +30,7 @@ type MapMarkersType = {
     viewState: viewStateType;
     menu: string;
     toolBar: toolBarType;
+    layerActive: string;
 }
 
 type selectedMarkerType = {
@@ -38,13 +39,10 @@ type selectedMarkerType = {
 }
 
 
-function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
+function MapMarkers({ mapRef, viewState, menu, toolBar, layerActive }: MapMarkersType) {
 
     const [selectedMarker, setSelectedMarker] = useState<selectedMarkerType | null>(null)
     const [distance, setDistance] = useState(0)
-
-    // const [a, seta] = useState([])
-
 
     const onMarkerHandler = (e: any, city: MarkerFeature) => {
         e.originalEvent.stopPropagation();
@@ -62,7 +60,6 @@ function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
 
         if (toolBar.includes('测距')) return
 
-        // onMarkerClick(city)
         // 飞行
         mapRef.current.getMap().easeTo({
             center, // 新的经纬度
@@ -84,7 +81,7 @@ function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
 
         return homeData.features.map((city, index) => {
             const { geometry, properties } = city
-            const reluct = selectedMarker?.longitude === properties.longitude && properties.latitude === selectedMarker.latitude
+            const reluct = selectedMarker?.longitude === properties.longitude && selectedMarker.latitude === properties.latitude
 
             return <Marker
                 key={`marker-${index}`}
@@ -94,7 +91,7 @@ function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
                 onClick={(e) => onMarkerHandler(e, city)}
             >
                 {/* <div style={active === index ? { display: "flex", alignItems: 'center', ...markerStyle } : { display: "flex", alignItems: 'center' }}> */}
-                <div style={reluct ? { display: "flex", alignItems: 'center', ...markerStyle } : { display: "flex", alignItems: 'center' }}>
+                <div style={reluct && toolBar.includes('测距') ? { display: "flex", alignItems: 'center', ...markerStyle } : { display: "flex", alignItems: 'center' }}>
                     <Pin />
                     <div>{properties.city}</div>
                 </div>
@@ -129,12 +126,60 @@ function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
         });
     }, [houchenData, onMarkerHandler]);
 
+    const luyi_markers = useMemo(() => (
+        <Source id="luyi" type="geojson" data={luyiData}>
+            <Layer
+                id="luyi-layer"
+                type="fill"
+                paint={{
+                    'fill-color': 'rgba(0, 100, 252,.5)',
+                    'fill-opacity': 0.6,
+                    'fill-outline-color': '#0064fc', // 边的颜色
+                }}
+            />
+        </Source>
+    ), [luyiData])
+
+    const bozhou_markers = useMemo(() => (
+        <Source id="bozhou" type="geojson" data={bozhouData}>
+            <Layer
+                id="bozhou-layer"
+                type="fill"
+                paint={{
+                    'fill-color': 'rgba(230, 179, 180,.5)',
+                    'fill-opacity': 0.6,
+                    'fill-outline-color': '#0064fc', // 边的颜色
+                }}
+            />
+        </Source>
+    ), [bozhouData])
+
+    const citys = useMemo(() => {
+        return citysData.map((layer, i) => (
+            <Source key={`${layer.id}${i}`} id={layer.name} type="geojson" data={layer.data}>
+                <Layer
+                    id={`${layer.id}`}
+                    type="fill"
+                    paint={{
+                        'fill-color': `rgba(${layer.color},${layerActive === layer.id ? 1 : 0.6})`,
+                        'fill-opacity': 0.6,
+                        'fill-outline-color': layer.outline_color, // 边的颜色
+                    }}
+                />
+            </Source>
+        ))
+    }, [citysData, layerActive])
+
     return (
         <>
             {markers}
             {distance !== 0 && (<div style={{ position: 'absolute', right: 0, top: 0 }}>{distance}米</div>)}
             {/* 筛选层级 人员图层 */}
             {viewState.zoom >= 15 && houchen_markers}
+
+            {/* {luyi_markers} */}
+            {/* {bozhou_markers} */}
+            {citys}
         </>
     )
 }
@@ -142,7 +187,8 @@ function mapStateToProps({ houchenModel }: any) {
     return {
         viewState: houchenModel.viewState,
         menu: houchenModel.menu,
-        toolBar: houchenModel.toolBar
+        toolBar: houchenModel.toolBar,
+        layerActive: houchenModel.layerActive,
     }
 }
 export default connect(mapStateToProps)(MapMarkers);

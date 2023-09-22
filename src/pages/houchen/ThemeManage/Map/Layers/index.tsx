@@ -2,6 +2,7 @@ import { FC, memo, useEffect, useState, Fragment } from 'react'
 import { connect } from 'dva';
 import HomeMarkers from './HomeMarkers'
 import HouchenMarkers from './HouchenMarkers'
+import LuyiMarkers from './LuyiMarkers'
 
 interface Props {
     menu: string;
@@ -38,11 +39,11 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, map }) => {
             },
             '鹿邑': () => {
                 mapInfo.getMap().easeTo({
-                    center: [115.48553, 33.8593],
-                    zoom: 12,
+                    center: [115.25848135107628, 33.918297835149275],
+                    zoom: 9.9,
                     duration: 2000,
                 });
-                return <HomeMarkers {...commonProps} />
+                return <LuyiMarkers {...commonProps} />
             },
         };
 
@@ -52,7 +53,6 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, map }) => {
             setChildComponent(component);
         }
     }, [menu]);
-    console.log(map);
     return (
         <Fragment>
             {childComponent}

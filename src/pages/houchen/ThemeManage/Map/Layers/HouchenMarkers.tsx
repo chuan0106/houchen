@@ -24,12 +24,12 @@ type setPopupInfoType = {
 }
 type MapMarkersType = {
     onMarkerClick: Function,
-    mapRef: any,
+    mapInfo: any,
     viewState: any,
     dispatch: (action: setPopupInfoType) => void;
 }
 
-function MapMarkers({ onMarkerClick, mapRef, viewState, dispatch }: MapMarkersType) {
+function MapMarkers({ onMarkerClick, mapInfo, viewState, dispatch }: MapMarkersType) {
 
     const onMarkerHandler = (e: any, city: MarkerFeature) => {
 
@@ -41,7 +41,7 @@ function MapMarkers({ onMarkerClick, mapRef, viewState, dispatch }: MapMarkersTy
         dispatch(setPopupInfoAction)
         // onMarkerClick(city)
         e.originalEvent.stopPropagation();
-        mapRef.current.getMap().easeTo({
+        mapInfo.getMap().easeTo({
             center, // 新的经纬度
             zoom: 16, // 新的缩放级别
             duration: 1000, // 过渡动画持续时间（以毫秒为单位）

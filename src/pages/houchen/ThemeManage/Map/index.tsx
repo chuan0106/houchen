@@ -1,16 +1,14 @@
-import { FC, useState, useRef, useCallback } from 'react';
+import { FC, useEffect, useRef, createRef, useCallback } from 'react';
 import { useDispatch } from 'umi';
 import { connect } from 'dva';
-import { Map, LayerProps, Marker, Popup, MapRef, MapLayerMouseEvent } from 'react-map-gl';
+import mapboxgl, { Map, LayerProps, Marker, Popup, MapRef, MapLayerMouseEvent, MapMouseEvent } from 'react-map-gl';
 import { viewStateType, MarkerProperties } from '@/interface/houchen/map'
 // import BaseLayer from './lib/baseLayer/baseLayer';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { throttle } from '@/utils/js/methods'
-import ControlPanel from './control-panel';
+import { MAPBOX_TOKEN } from '@/utils/publickPage'
 import Layers from './Layers'
 import Message from './Message'
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1YW4wMTA2IiwiYSI6ImNrc3UzaHM0NDFjbTMydm1kaG1vaW1tN3YifQ.vMtkKlcWXantTp1p1Z6N3g'; // Set your mapbox token here
-
 export const clusterLayer: LayerProps = {
     id: 'clusters',
     type: 'circle',
@@ -50,26 +48,31 @@ export const unclusteredPointLayer: LayerProps = {
 type props = {
     viewState: viewStateType;
     popupInfo: MarkerProperties;
+    mapTheme: string
 }
 
-const App: FC<props> = ({ viewState, popupInfo }) => {
+const App: FC<props> = ({ viewState, popupInfo, mapTheme }) => {
     const dispatch = useDispatch();
-    const mapRef = useRef<MapRef>(null);
+    const mapRef = createRef<MapRef>();
 
     const initMapCallback: any = (even: MapLayerMouseEvent) => {
-
         const map = even?.target
         if (map) {
             dispatch({
                 type: 'houchenModel/setMap',
                 payload: map
             });
-            map.on('click', (e: MapLayerMouseEvent) => {
-                console.log(e);
+
+            map.on('click', (event: MapLayerMouseEvent) => {
+                const features = map.queryRenderedFeatures(event.point);
+                console.log(features, 'features');
+
             })
 
             // 当鼠标移入地图时触发
             const throttledMouseMove = throttle((event) => {
+                console.log(event, 'eventevent');
+
                 let lastHoveredLayerId = null;
                 const features = map.queryRenderedFeatures(event.point);
 
@@ -91,7 +94,7 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
 
                 // 如果当前悬停的图层ID与上次的不同，则打印并更新lastHoveredLayerId
                 if (lastHoveredLayerId !== currentHoveredLayerId) {
-                    console.log(`鼠标现在悬停在图层：${currentHoveredLayerId}`);
+                    console.log(`鼠标现在悬停在图层：${currentHoveredLayerId}`, lastHoveredLayerId);
                     lastHoveredLayerId = currentHoveredLayerId;
                     dispatch({
                         type: 'houchenModel/setLayerActive',
@@ -111,11 +114,30 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
             payload: city
         });
     }
+    // 得到面图层的 source
+    const getFaceLayerSource = (sourceId: string) => {
+        console.log({ sourceId });
+        dispatch({
+            type: 'houchenModel/setMapCity',
+            payload: sourceId
+        });
+    }
 
-    const onClick = (event: MapLayerMouseEvent) => {
+    const mapHandlerClick = (event: MapMouseEvent) => {
+        // const map = event?.target as mapboxgl.Map;
+        const map = event?.target;
+        const { point } = event;
+        const features = map.queryRenderedFeatures(point);
+        const filteredFeatures = features.filter(feature => feature.source !== 'composite');
+        const sourceId = filteredFeatures.length > 0 && filteredFeatures[0].source
+        if (sourceId) {
+            getFaceLayerSource(sourceId)
+        }
     };
 
+
     const onMove = useCallback(({ viewState }: any) => {
+        console.log({ viewState });
         dispatch({
             type: 'houchenModel/setViewState',
             payload: viewState
@@ -127,22 +149,18 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
             <Map
                 {...viewState}
                 ref={mapRef}
-                // viewState={viewState}
-                // initialViewState={viewState}
-                // onMove={evt => setViewState(evt.viewState)}
+                language={'zh-Hans'}
                 onMove={onMove}
                 onLoad={initMapCallback}
-                // mapStyle={mapStyle && mapStyle.toJS()}
-                mapStyle={'mapbox://styles/mapbox/streets-v11'}
+                mapStyle={`/mapstyle/style.json`}
                 styleDiffing
                 mapboxAccessToken={MAPBOX_TOKEN}
-                onClick={onClick}
+                onClick={mapHandlerClick}
             >
                 <Layers
                     mapRef={mapRef}
                     onMarkerClick={markerHandler}
                 />
-                {/* {pins} */}
                 {popupInfo && (
                     <Popup
                         anchor="left"
@@ -153,14 +171,11 @@ const App: FC<props> = ({ viewState, popupInfo }) => {
                         maxWidth={'100%'}
                     >
                         <div style={{ width: '335px', height: '100%' }}>
-                            {/* {popupInfo?.name} {popupInfo?.property} */}
                             <Message message={popupInfo} title='详情' />
                         </div>
                     </Popup>
                 )}
             </Map>
-
-            {/* <ControlPanel onChange={setMapStyle} /> */}
         </>
     );
 }
@@ -169,7 +184,7 @@ function mapStateToProps({ houchenModel }: any) {
     return {
         viewState: houchenModel.viewState,
         popupInfo: houchenModel.popupInfo,
-
+        mapTheme: houchenModel.mapTheme,
     }
 }
 export default connect(mapStateToProps)(App);

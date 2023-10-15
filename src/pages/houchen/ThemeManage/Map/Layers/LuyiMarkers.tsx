@@ -1,20 +1,20 @@
 import { useState, useMemo } from 'react';
 import { connect } from 'dva';
-import { Source, Marker, Layer } from 'react-map-gl';
+import { Map, Source, Marker, Layer } from 'react-map-gl';
 import { getDistance } from 'geolib';
 import type { viewStateType } from '@/interface/houchen/map'
-import { toolBarType } from '@/interface/houchen'
-
-import { MarkerFeature } from '@/interface/houchen/map'
+import type { toolBarType } from '@/interface/houchen'
+import type { MarkerFeature } from '@/interface/houchen/map'
 import Pin from '../Pin';
 
-import { homeData, houchenData, luyiData, bozhouData, citysData } from '@/pages/data/map'
+import { homeData, houchenData, luyiData, bozhouData, henansheng } from '@/pages/data/map'
 
 import chuan from '@/assets/person/chuan.jpg'
 import gao from '@/assets/person/gao.jpg'
 import shuai from '@/assets/person/shuai.jpg'
 import wei from '@/assets/person/wei.jpg'
 import shaozhu from '@/assets/person/shaozhu.jpg'
+console.log({ henansheng });
 
 const imgs = [
     { img: chuan, id: 1 },
@@ -26,7 +26,7 @@ const imgs = [
 
 type MapMarkersType = {
     onMarkerClick: Function;
-    mapRef: any;
+    mapInfo: any;
     viewState: viewStateType;
     menu: string;
     toolBar: toolBarType;
@@ -39,7 +39,7 @@ type selectedMarkerType = {
 }
 
 
-function MapMarkers({ mapRef, viewState, menu, toolBar, layerActive }: MapMarkersType) {
+function MapMarkers({ mapInfo, viewState, menu, toolBar, layerActive }: MapMarkersType) {
 
     const [selectedMarker, setSelectedMarker] = useState<selectedMarkerType | null>(null)
     const [distance, setDistance] = useState(0)
@@ -60,14 +60,11 @@ function MapMarkers({ mapRef, viewState, menu, toolBar, layerActive }: MapMarker
 
         if (toolBar.includes('测距')) return
 
-        // 飞行
-        mapRef.current.getMap().easeTo({
+        mapInfo.getMap().easeTo({
             center, // 新的经纬度
             zoom: 16, // 新的缩放级别
             duration: 1000, // 过渡动画持续时间（以毫秒为单位）
         });
-
-
     }
 
     // const visibleMarkers = cities.filter((marker) => marker.zoom <= viewState.zoom || !marker.zoom);
@@ -155,8 +152,9 @@ function MapMarkers({ mapRef, viewState, menu, toolBar, layerActive }: MapMarker
     ), [bozhouData])
 
     const citys = useMemo(() => {
-        return citysData.map((layer, i) => (
+        return henansheng.map((layer, i) => (
             <Source key={`${layer.id}${i}`} id={layer.name} type="geojson" data={layer.data}>
+                {/* <Source key={`${layer.id}${i}`} id={layer.name} type="geojson" data={JSON.stringify(layer.data)}> */}
                 <Layer
                     id={`${layer.id}`}
                     type="fill"
@@ -168,7 +166,7 @@ function MapMarkers({ mapRef, viewState, menu, toolBar, layerActive }: MapMarker
                 />
             </Source>
         ))
-    }, [citysData, layerActive])
+    }, [henansheng, layerActive])
 
     return (
         <>

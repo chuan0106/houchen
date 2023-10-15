@@ -3,14 +3,14 @@
     position: fixed;
     right: 25px;
     bottom: 25px;
-    background: linear-gradient(to right, #ed6ea0, #ec8c69);
+    // background: linear-gradient(to right, #ed6ea0, #ec8c69);
     width: 300px;
     height: 300px;
     border-radius: 50%;
     // background: url('~@/assets/common/menu2.png') no-repeat;
     background-size: 100% 100%;
     pointer-events: auto;
-    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+    // background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 
     .warp {
         display: flex;
@@ -47,10 +47,14 @@
             cursor: pointer;
             user-select: none;
             touch-action: manipulation;
-            outline: 10px solid rgb(rgb(133, 133, 127), .5);
+
             border-radius: 100%;
             position: relative;
             transition: .3s;
+
+            &:active {
+                outline: 10px solid rgb(rgb(133, 133, 127), .5);
+            }
         }
 
         .btn_class_name .back {

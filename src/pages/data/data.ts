@@ -198,13 +198,15 @@ const tabBar = [
 ]
 
 
-const dayDif = (date1, date2) => Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / 86400000)
+const dayDif = (date1: Date, date2: Date): number => Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / 86400000);
 var currentDate = new Date();
-var year = currentDate.getFullYear(); // 获取当前年份
-var month = currentDate.getMonth() + 1; // 获取当前月份（月份从0开始，需要加1）
-var day = currentDate.getDate(); // 获取当前日期
-month = month < 10 ? "0" + month : month;
-day = day < 10 ? "0" + day : day;
+var year = currentDate.getFullYear();
+var rawMonth = currentDate.getMonth() + 1; // 获取当前月份（月份从0开始，需要加1）
+var rawDay = currentDate.getDate();
+
+const month: number = rawMonth < 10 ? rawMonth : parseInt("0" + rawMonth);
+const day: number = rawDay < 10 ? rawDay : parseInt("0" + rawDay);
+
 var formattedDate = year + "-" + month + "-" + day; // 拼接成指定格式的日期字符串
 
 const companys = [

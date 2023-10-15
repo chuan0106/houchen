@@ -3,30 +3,30 @@ import { connect } from 'dva';
 import HomeMarkers from './HomeMarkers'
 import HouchenMarkers from './HouchenMarkers'
 import LuyiMarkers from './LuyiMarkers'
+import Panorama from './Panorama'
 
 interface Props {
     menu: string;
     onMarkerClick: Function;
     mapRef: any;
-    map: any
+    map: any;
+    dispatch: any;
 }
-const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, map }) => {
+const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, dispatch, map }) => {
     const [childComponent, setChildComponent] = useState<JSX.Element | null>(null);
+
     useEffect(() => {
-
-
-        const commonProps = { onMarkerClick, mapRef };
         const mapInfo = mapRef.current
+        const commonProps = { onMarkerClick, mapInfo };
+
         const mapElement: { [key: string]: () => JSX.Element } = {
             '首页': () => {
-                mapInfo.getMap().easeTo({
+                const center = {
+                    center: [115.43243155885693, 33.870216449882506],
                     zoom: 13,
-                    // pitch: 62,
-                    longitude: 115.4109739,
-                    latitude: 33.8762738,
-                    minZoom: 12,
-                    maxZoom: 19,
-                });
+                    bearing: 0,
+                }
+                mapInfo.getMap().easeTo(center);
                 return <HomeMarkers {...commonProps} />;
             },
             '后陈': () => {
@@ -38,12 +38,28 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, map }) => {
                 return <HouchenMarkers {...commonProps} />
             },
             '鹿邑': () => {
+
                 mapInfo.getMap().easeTo({
                     center: [115.25848135107628, 33.918297835149275],
                     zoom: 9.9,
                     duration: 2000,
                 });
                 return <LuyiMarkers {...commonProps} />
+            },
+            '全貌': () => {
+                dispatch({
+                    type: 'houchenModel/setMapCity',
+                    payload: '河南省'
+                });
+                // const center = {
+                //     center: [113.55795426467324, 34.109682102772766],
+                //     bearing: 0,
+                //     // padding: { top: 0, bottom: 0, left: 0, right: 0 },
+                //     pitch: 0,
+                //     zoom: 6.84
+                // }
+                // mapInfo.getMap().easeTo(center);
+                return <Panorama {...commonProps} />
             },
         };
 

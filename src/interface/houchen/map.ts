@@ -1,22 +1,48 @@
 import { Effect, Reducer } from 'umi';
-// model start~
+
+export declare type PaddingOptions = {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+};
+export interface FilterOptions {
+    /**
+     * Whether to check if the filter conforms to the Mapbox GL Style Specification.
+     * Disabling validation is a performance optimization that should only be used
+     * if you have previously validated the values you will be passing to this function.
+     */
+    validate?: boolean | null | undefined;
+}
+export interface MapInstanceType {
+    setPaintProperty(layer: string, name: string, value: any, options?: FilterOptions): this;
+    // 其他地图实例的属性和方法
+    // 这里添加地图实例的属性和方法
+    // 例如：
+    // zoom: number;
+    // setZoom: (zoom: number) => void;
+    // ...
+}
 export interface viewStateType {
-    zoom: number;
-    pitch: number;
     longitude: number;
     latitude: number;
+    zoom: number;
+    bearing: number;
+    pitch: number;
     minZoom: number;
     maxZoom: number;
-    bearing: number
+    padding?: PaddingOptions;
 }
 
 export interface StateType {
     menu: string;
-    map: null;
+    map: MapInstanceType | null;
     viewState: viewStateType;
     popupInfo: null;
     toolBar: string[];
     layerActive: null;
+    mapTheme: string;
+    mapCity: string;
 }
 
 export interface HouchenModelType {
@@ -32,6 +58,8 @@ export interface HouchenModelType {
         setPopupInfo: Reducer<StateType>,
         setToolBar: Reducer<StateType>,
         setLayerActive: Reducer<StateType>,
+        setMapTheme: Reducer<StateType>,
+        setMapCity: Reducer<StateType>,
     };
 }
 

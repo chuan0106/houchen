@@ -7,8 +7,6 @@ export interface activeDispatch {
     (action: dispatchType): void;
 }
 
-
-
 export interface toolBarType {
     toolBar: string[];
     filter: (predicate: (item: string) => boolean) => string[];

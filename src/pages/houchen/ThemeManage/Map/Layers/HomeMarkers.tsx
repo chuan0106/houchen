@@ -26,7 +26,7 @@ const imgs = [
 
 type MapMarkersType = {
     onMarkerClick: Function;
-    mapRef: any;
+    mapInfo: any;
     viewState: viewStateType;
     menu: string;
     toolBar: toolBarType;
@@ -38,7 +38,7 @@ type selectedMarkerType = {
 }
 
 
-function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
+function MapMarkers({ mapInfo, viewState, menu, toolBar }: MapMarkersType) {
 
     const [selectedMarker, setSelectedMarker] = useState<selectedMarkerType | null>(null)
     const [distance, setDistance] = useState(0)
@@ -64,7 +64,7 @@ function MapMarkers({ mapRef, viewState, menu, toolBar }: MapMarkersType) {
 
         // onMarkerClick(city)
         // 飞行
-        mapRef.current.getMap().easeTo({
+        mapInfo.getMap().easeTo({
             center, // 新的经纬度
             zoom: 16, // 新的缩放级别
             duration: 1000, // 过渡动画持续时间（以毫秒为单位）

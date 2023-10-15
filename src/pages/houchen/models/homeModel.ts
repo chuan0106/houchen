@@ -10,14 +10,15 @@ const houchenModel: HouchenModelType = {
             pitch: 0,
             longitude: 115.4109739,
             latitude: 33.8762738,
-            minZoom: 9,
+            minZoom: 6.84,
             maxZoom: 19,
             bearing: 7.2
-
         },
         popupInfo: null, // 弹窗
         toolBar: [], // 工具栏
-        layerActive: null // 活跃的图层
+        layerActive: null, // 活跃的图层
+        mapTheme: 'rgba(240, 248, 255,1)', // 主题地块颜色
+        mapCity: '河南省' // 地图下攥
 
     },
     effects: {
@@ -60,6 +61,18 @@ const houchenModel: HouchenModelType = {
             return {
                 ...state,
                 layerActive: payload
+            };
+        },
+        setMapTheme(state, { payload }) {
+            return {
+                ...state,
+                mapTheme: payload
+            };
+        },
+        setMapCity(state, { payload }) {
+            return {
+                ...state,
+                mapCity: payload
             };
         },
     },

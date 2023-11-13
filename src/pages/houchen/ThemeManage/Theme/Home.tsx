@@ -1,8 +1,11 @@
-import { FC, useEffect, Fragment, memo } from 'react';
+import { FC, useState, useEffect, Fragment, memo, } from 'react';
 import styles from './style.less'
 import { MarkerProperties } from '@/interface/houchen/map'
+import CountUp, { CountUpProps } from 'react-countup';
 import { connect } from 'dva';
-
+import {
+    UserOutlined,
+} from '@ant-design/icons';
 import * as echarts from 'echarts/core';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
@@ -11,6 +14,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, LegendComponent, TooltipComponent]);
 import { dispatchType } from '@/interface/houchen/map'
 import { homeData, houchenData } from '@/pages/data/map'
+import Menu from '../Menu'
 
 import Table from '@/pages/Components/Table'
 import cunneijingji from '@/assets/houchen/icon/jingji.png'
@@ -32,7 +36,6 @@ const contentStyle = {
 
 const toFixed = (n: any, fixed: any) => ~~(Math.pow(10, fixed) * n) / Math.pow(10, fixed);
 const random = (min: any, max: any) => Math.floor(Math.random() * (max - min + 1) + min);
-
 
 const quanjugailan = [
     {
@@ -181,6 +184,12 @@ const dataSource: DataSourceItemType[] = [
 
 const rankedData = [...dataSource].sort((a, b) => b.gold - a.gold).map((item, index) => ({ ...item, rank: index + 1 }));
 
+interface ModalType {
+    id: number;
+    title: string;
+    content: string;
+    image?: File | null;
+}
 
 type Props = {
     map: any,
@@ -188,6 +197,48 @@ type Props = {
     popupInfo: MarkerProperties;
 }
 const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
+
+    const [time, setTime] = useState(new Date().getHours())
+    const [modal, setModal] = useState<ModalType | null>(null)
+    const [animationKey, setAnimationKey] = useState(0);
+
+    const footfall = [
+        { name: '今日客流量', id: 1, delivery: time * random(680, 820), unit: '人次' },
+        { name: '开业累计客流量', id: 1, delivery: 682536, unit: '人次' },
+        { name: '昨日客流量', id: 1, delivery: 24 * random(680, 820), unit: '人次' },
+        { name: '平均停留时间', id: 1, delivery: random(145, 180), unit: '分钟' },
+    ]
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setAnimationKey((prevKey) => prevKey + 1);
+        }, 10000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+    useEffect(() => {
+        const channel = new BroadcastChannel('time')
+        channel.onmessage = e => {
+            const { data: time } = e
+            setTime(parseFloat(time))
+        }
+        return () => {
+            channel.close(); // 在组件卸载时关闭 channel
+        };
+    }, [])
+
+    useEffect(() => {
+        const channel = new BroadcastChannel('modal')
+        channel.onmessage = e => {
+            const { data } = e
+            setModal(data)
+        }
+        return () => {
+            channel.close(); // 在组件卸载时关闭 channel
+        };
+    }, [])
+
     useEffect(() => {
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
@@ -344,123 +395,180 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
     }
 
     return (
-        <div className={styles.theme}>
-            <div className={styles.container}>
-                <div className={styles.core}>
-                    <div className={styles.theme_box}>
-                        <div className={styles.head}>
-                            <div className={styles.head_text}>
-                                全局概览
+        <>
+            <Menu />
+            <div className={styles.theme}>
+                <div className={styles.container}>
+                    <div className={styles.core}>
+                        <div className={styles.theme_box}>
+                            <div className={styles.head}>
+                                <div className={styles.head_text}>
+                                    全局概览
+                                </div>
+                                <div className={styles.head_loader}>
+                                    <span className={`${styles.side} ${styles.side1}`} ></span>
+                                    <span className={`${styles.side} ${styles.side2}`} ></span>
+                                    <span className={`${styles.side} ${styles.side3}`} ></span>
+                                    <span className={`${styles.side} ${styles.side4}`} ></span>
+                                </div>
                             </div>
-                            <div className={styles.head_loader}>
-                                <span className={`${styles.side} ${styles.side1}`} ></span>
-                                <span className={`${styles.side} ${styles.side2}`} ></span>
-                                <span className={`${styles.side} ${styles.side3}`} ></span>
-                                <span className={`${styles.side} ${styles.side4}`} ></span>
+                            <div className={styles.content}>
+                                {quanjugailan.map((item, i) => (
+                                    <div key={`${item.name}${i}`} className={styles.box}>
+                                        <img src={item.img} alt="" />
+                                        <div className={styles.text}>
+                                            <div>{item.name}</div>
+                                            <div>{item.num}{item.unit}</div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                        <div className={styles.content}>
-                            {quanjugailan.map((item, i) => (
-                                <div key={`${item.name}${i}`} className={styles.box}>
-                                    <img src={item.img} alt="" />
-                                    <div className={styles.text}>
-                                        <div>{item.name}</div>
-                                        <div>{item.num}{item.unit}</div>
+
+                        <div className={styles.theme_box}>
+                            <div className={styles.head}>
+                                <div className={styles.head_text}>
+                                    经济趋势
+                                </div>
+                                <div className={styles.head_loader}>
+                                    <span className={`${styles.side} ${styles.side1}`} ></span>
+                                    <span className={`${styles.side} ${styles.side2}`} ></span>
+                                    <span className={`${styles.side} ${styles.side3}`} ></span>
+                                    <span className={`${styles.side} ${styles.side4}`} ></span>
+                                </div>
+                            </div>
+                            <div className={styles.content}>
+                                <div style={{ width: '100%', height: '200px' }} id='main'></div>
+                            </div>
+                        </div>
+
+                        <div className={styles.theme_box}>
+                            <div className={styles.head}>
+                                <div className={styles.head_text}>
+                                    三大主导产业
+                                </div>
+                                <div className={styles.head_loader}>
+                                    <span className={`${styles.side} ${styles.side1}`} ></span>
+                                    <span className={`${styles.side} ${styles.side2}`} ></span>
+                                    <span className={`${styles.side} ${styles.side3}`} ></span>
+                                    <span className={`${styles.side} ${styles.side4}`} ></span>
+                                </div>
+                            </div>
+                            <div className={styles.leading_industry}>
+                                {zhudaochanye.map((industry, i) => {
+                                    // 计算总值
+                                    const totalOutputValue = zhudaochanye.reduce((sum, item) => sum + item.output_value, 0);
+                                    return (
+                                        <Fragment key={i}>
+                                            <div className={styles.box}>
+                                                <div className={styles.title}>{i + 1}.{industry.name}</div>
+                                                <div className={styles.production}>
+                                                    <div className={styles.value}>
+                                                        <span className={styles.num}>{industry.output_value}</span>
+                                                        <span className={styles.unit}>元</span>
+                                                    </div>
+                                                    <div className={styles.type} style={{ color: 'rgb(184, 233, 134)' }}>产值</div>
+                                                </div>
+                                                <div className={styles.production}>
+                                                    <div className={styles.value}>
+                                                        <span className={styles.num}>{industry.yoy}</span>
+                                                        <span className={styles.unit}>%</span>
+                                                    </div>
+                                                    <div className={styles.type} style={{ color: 'rgb(255, 246, 135)' }}>同比</div>
+                                                </div>
+                                                <div className={styles.production}>
+                                                    <div className={styles.value}>
+                                                        <span className={styles.num}>{toFixed(industry.output_value / totalOutputValue * 100, 2)}</span>
+                                                        <span className={styles.unit}>%</span>
+                                                    </div>
+                                                    <div className={styles.type} style={{ color: 'rgb(221, 162, 126)' }}>金币占比</div>
+                                                </div>
+                                            </div>
+
+                                        </Fragment>
+
+                                    )
+                                })
+                                }
+                            </div>
+                        </div>
+                        {/* 土豪排行榜 */}
+                        <div className={styles.theme_box}>
+                            <div className={styles.head}>
+                                <div className={styles.head_text}>
+                                    土豪排行榜
+                                </div>
+                                <div className={styles.head_loader}>
+                                    <span className={`${styles.side} ${styles.side1}`} ></span>
+                                    <span className={`${styles.side} ${styles.side2}`} ></span>
+                                    <span className={`${styles.side} ${styles.side3}`} ></span>
+                                    <span className={`${styles.side} ${styles.side4}`} ></span>
+                                </div>
+                            </div>
+                            <div className={styles.table}>
+                                <div style={{ height: '180px' }}>
+                                    <Table dataSource={rankedData} columns={columns} isScroll={true} rowClassName={{ oddStyle: { color: '#fff', background: 'rgba(16, 48, 102,.3)', fontSize: '14px' }, evenStyle: { color: '#FFF2D6', background: 'rgba(255, 242, 214, .3)', fontSize: '14px' } }} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className={styles.container_right}>
+                    <div className={styles.core}>
+                        {footfall.map(item => {
+                            const countUpProps: CountUpProps = {
+                                start: 0,
+                                end: item.delivery,
+                                decimals: 0,
+                                duration: 1.25,
+                                delay: 0,
+                                separator: ","
+                            };
+                            return (
+                                <div key={item.id} className={styles.item_box}>
+                                    <UserOutlined />
+
+                                    <div className={styles.content}>
+                                        <p className={styles.title}>{item.name}</p>
+                                        <CountUp
+                                            key={animationKey}
+                                            {...countUpProps}
+                                        >
+                                            {({ countUpRef }) => (
+                                                <div className={styles.value}>
+                                                    <span className={`${styles.state_value} ${styles.unit}`} ref={countUpRef}></span>
+                                                    <span className={`${styles.state_value} ${styles.unit}`}>{item.unit}</span>
+                                                </div>
+
+                                            )}
+                                        </CountUp>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            )
+                        })}
+
                     </div>
+                </div>
+                <div className={styles.modal}>
+                    <div style={{ display: modal ? 'block' : 'none' }} className={styles.cookie_card} >
+                        <span className={styles.title} >{modal?.title}</span>
+                        <p className={styles.description} >{modal?.content} <a href="#">详细了解...</a>. </p>
 
-                    <div className={styles.theme_box}>
-                        <div className={styles.head}>
-                            <div className={styles.head_text}>
-                                经济趋势
-                            </div>
-                            <div className={styles.head_loader}>
-                                <span className={`${styles.side} ${styles.side1}`} ></span>
-                                <span className={`${styles.side} ${styles.side2}`} ></span>
-                                <span className={`${styles.side} ${styles.side3}`} ></span>
-                                <span className={`${styles.side} ${styles.side4}`} ></span>
-                            </div>
-                        </div>
-                        <div className={styles.content}>
-                            <div style={{ width: '100%', height: '200px' }} id='main'></div>
-                        </div>
-                    </div>
-
-                    <div className={styles.theme_box}>
-                        <div className={styles.head}>
-                            <div className={styles.head_text}>
-                                三大主导产业
-                            </div>
-                            <div className={styles.head_loader}>
-                                <span className={`${styles.side} ${styles.side1}`} ></span>
-                                <span className={`${styles.side} ${styles.side2}`} ></span>
-                                <span className={`${styles.side} ${styles.side3}`} ></span>
-                                <span className={`${styles.side} ${styles.side4}`} ></span>
-                            </div>
-                        </div>
-                        <div className={styles.leading_industry}>
-                            {zhudaochanye.map((industry, i) => {
-                                // 计算总值
-                                const totalOutputValue = zhudaochanye.reduce((sum, item) => sum + item.output_value, 0);
-                                return (
-                                    <Fragment key={i}>
-                                        <div className={styles.box}>
-                                            <div className={styles.title}>{i + 1}.{industry.name}</div>
-                                            <div className={styles.production}>
-                                                <div className={styles.value}>
-                                                    <span className={styles.num}>{industry.output_value}</span>
-                                                    <span className={styles.unit}>元</span>
-                                                </div>
-                                                <div className={styles.type} style={{ color: 'rgb(184, 233, 134)' }}>产值</div>
-                                            </div>
-                                            <div className={styles.production}>
-                                                <div className={styles.value}>
-                                                    <span className={styles.num}>{industry.yoy}</span>
-                                                    <span className={styles.unit}>%</span>
-                                                </div>
-                                                <div className={styles.type} style={{ color: 'rgb(255, 246, 135)' }}>同比</div>
-                                            </div>
-                                            <div className={styles.production}>
-                                                <div className={styles.value}>
-                                                    <span className={styles.num}>{toFixed(industry.output_value / totalOutputValue * 100, 2)}</span>
-                                                    <span className={styles.unit}>%</span>
-                                                </div>
-                                                <div className={styles.type} style={{ color: 'rgb(221, 162, 126)' }}>金币占比</div>
-                                            </div>
-                                        </div>
-
-                                    </Fragment>
-
-                                )
-                            })
-                            }
-                        </div>
-                    </div>
-                    {/* 土豪排行榜 */}
-                    <div className={styles.theme_box}>
-                        <div className={styles.head}>
-                            <div className={styles.head_text}>
-                                土豪排行榜
-                            </div>
-                            <div className={styles.head_loader}>
-                                <span className={`${styles.side} ${styles.side1}`} ></span>
-                                <span className={`${styles.side} ${styles.side2}`} ></span>
-                                <span className={`${styles.side} ${styles.side3}`} ></span>
-                                <span className={`${styles.side} ${styles.side4}`} ></span>
-                            </div>
-                        </div>
-                        <div className={styles.table}>
-                            <div style={{ height: '180px' }}>
-                                <Table dataSource={rankedData} columns={columns} isScroll={true} rowClassName={{ oddStyle: { color: '#fff', background: 'rgba(16, 48, 102,.3)', fontSize: '14px' }, evenStyle: { color: '#FFF2D6', background: 'rgba(255, 242, 214, .3)', fontSize: '14px' } }} />
-                            </div>
+                        <div className={styles.actions} >
+                            <button style={{ visibility: 'hidden' }} className={styles.pref} >
+                                Manage your preferences
+                            </button>
+                            <button onClick={() => { setModal(null) }} className={styles.accept} >
+                                关闭
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div >
+            </div >
+
+        </>
     );
 };
 

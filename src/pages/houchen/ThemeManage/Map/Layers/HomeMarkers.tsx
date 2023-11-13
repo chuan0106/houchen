@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
+import styles from './style.less'
 import { connect } from 'dva';
+import * as turf from '@turf/turf'
 import { Source, Marker, Layer } from 'react-map-gl';
 import { getDistance } from 'geolib';
 import type { viewStateType } from '@/interface/houchen/map'
@@ -30,6 +32,7 @@ type MapMarkersType = {
     viewState: viewStateType;
     menu: string;
     toolBar: toolBarType;
+    map: any;
 }
 
 type selectedMarkerType = {
@@ -37,14 +40,71 @@ type selectedMarkerType = {
     latitude: number;
 }
 
-
-function MapMarkers({ mapInfo, viewState, menu, toolBar }: MapMarkersType) {
+function MapMarkers({ mapInfo, viewState, menu, toolBar, map, }: MapMarkersType) {
 
     const [selectedMarker, setSelectedMarker] = useState<selectedMarkerType | null>(null)
     const [distance, setDistance] = useState(0)
 
     // const [a, seta] = useState([])
+    useEffect(() => {
+        const channel = new BroadcastChannel('location')
+        channel.onmessage = e => {
+            const { data } = e
+            mapInfo.getMap().easeTo(data.location);
+        }
+        return () => {
+            channel.close(); // 在组件卸载时关闭 channel
+        };
+    }, [])
+    useEffect(() => {
+        const sourceId = 'polygon321';
+        if (map) {
+            // 检查源是否已存在
+            const existingSource = map.getSource(sourceId);
+            if (existingSource) {
+                // 如果源已存在，则先删除它
+                map.removeSource(sourceId);
+            }
+            const polygonData = {
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [
+                        [
+                            [115.4029739, 33.87238],
+                            [115.4039739, 33.8797],
+                            [115.414, 33.8797],
+                            [115.414, 33.87338],
+                            [115.4029739, 33.87238]
+                        ]
+                    ]
+                }
+            };
 
+            map.addSource(sourceId, {
+                type: 'geojson',
+                data: polygonData
+            })
+            map.addLayer({
+                'id': 'dsalkj',
+                'type': 'fill',
+                'source': sourceId,
+                'layout': {},
+                'paint': {
+                    'fill-color': '#50e3c2',
+                    'fill-opacity': 0.8
+                }
+            });
+            // const centroid = turf.area(polygonData);
+            // console.log(centroid, 111111111111222);
+        }
+        return () => {
+            if (map) {
+                map.removeLayer('dsalkj'); // 删除图层
+                map.removeSource(sourceId); // 删除源
+            }
+        };
+    }, [map])
 
     const onMarkerHandler = (e: any, city: MarkerFeature) => {
         e.originalEvent.stopPropagation();
@@ -96,7 +156,7 @@ function MapMarkers({ mapInfo, viewState, menu, toolBar }: MapMarkersType) {
                 {/* <div style={active === index ? { display: "flex", alignItems: 'center', ...markerStyle } : { display: "flex", alignItems: 'center' }}> */}
                 <div style={reluct ? { display: "flex", alignItems: 'center', ...markerStyle } : { display: "flex", alignItems: 'center' }}>
                     <Pin />
-                    <div>{properties.city}</div>
+                    <div className={styles.dotted}>{properties.city}</div>
                 </div>
             </Marker>
         });
@@ -123,7 +183,13 @@ function MapMarkers({ mapInfo, viewState, menu, toolBar }: MapMarkersType) {
                 <div style={{ display: "flex", alignItems: 'center', cursor: 'pointer' }}>
                     {/* <Pin /> */}
                     <img style={{ width: '25px', height: '25px', borderRadius: '50%' }} src={img} alt="" />
-                    <div>{properties.city}</div>
+                    {properties.city}
+                    <div className={styles.city}>
+                        <div className={styles.dotted} ></div>
+                        <div className={styles.pulse1} ></div>
+                        <div className={styles.pulse2} ></div>
+                        <div className={styles.pulse3} ></div>
+                    </div>
                 </div>
             </Marker>
         });
@@ -140,6 +206,7 @@ function MapMarkers({ mapInfo, viewState, menu, toolBar }: MapMarkersType) {
 }
 function mapStateToProps({ houchenModel }: any) {
     return {
+        map: houchenModel.map,
         viewState: houchenModel.viewState,
         menu: houchenModel.menu,
         toolBar: houchenModel.toolBar

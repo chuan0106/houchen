@@ -1,0 +1,110 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 80px;
+    padding: 10px 25px;
+
+    .active {
+        background: #fff;
+        font-size: 18px;
+    }
+
+    .marksEven {
+        // 偶数
+        // background: linear-gradient(to right, rgba(182, 54, 128) 0%, rgba(16, 202, 100, ) 100%);
+        font-size: 24px;
+        background: #fff;
+    }
+
+    .marksOdd {
+        // 奇数
+        display: none;
+        background: linear-gradient(to right, rgb(231, 120, 157, .3) 0%, rgb(254, 225, 64, .1) 100%);
+    }
+
+    //   .active,
+    //   .marksEven,
+    //   .marksOdd {
+    //     cursor: pointer;
+    //     -webkit-background-clip: text;
+    //     -webkit-text-fill-color: transparent;
+    //   }
+
+
+    .Slider {
+        background: #262626;
+        margin: 0px 5px 0px 5px;
+        height: 40px;
+        width: 100%;
+
+    }
+
+    .reduce,
+    .subjoin {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: #262626;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px 8px 8px 8px;
+    }
+
+    // antd 样式
+    :global {
+        .ant-slider-rail {
+            height: 1px !important;
+            background: #fff !important;
+            top: 7px !important;
+        }
+
+        // 显示的距离
+        .ant-slider-track {
+            height: 1px !important;
+            background: transparent !important;
+        }
+
+        // 字体颜色
+        // .ant-slider-mark-text {
+        //   color: #fff !important;
+        // }
+
+
+        .ant-slider-handle:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+            border: none;
+        }
+
+        .ant-slider-dot {
+            width: 1px !important;
+            height: 8px !important;
+            border: 0px solid rgb(85, 62, 62) !important;
+            margin-left: 0px !important;
+        }
+
+        // .ant-slider-handle {
+        //   width: 1px !important;
+        //   height: 30px !important;
+        //   border: none;
+        //   background: rgb(202, 12, 25);
+        //   margin-top: -10px !important;
+        //   transform: none !important;
+        // }
+
+        // .ant-slider-mark {
+        //   top: 20px !important;
+        // }
+        // .ant-slider-mark {
+        //   position: absolute;
+        //   top: 14px;
+        //   left: 0;
+        //   width: 100%;
+        //   font-size: 28px;
+        // }
+    }
+}

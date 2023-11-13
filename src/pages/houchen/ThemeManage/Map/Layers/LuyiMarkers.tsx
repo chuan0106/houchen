@@ -14,7 +14,6 @@ import gao from '@/assets/person/gao.jpg'
 import shuai from '@/assets/person/shuai.jpg'
 import wei from '@/assets/person/wei.jpg'
 import shaozhu from '@/assets/person/shaozhu.jpg'
-console.log({ henansheng });
 
 const imgs = [
     { img: chuan, id: 1 },
@@ -177,7 +176,7 @@ function MapMarkers({ mapInfo, viewState, menu, toolBar, layerActive }: MapMarke
 
             {/* {luyi_markers} */}
             {/* {bozhou_markers} */}
-            {citys}
+            {/* {citys} */}
         </>
     )
 }

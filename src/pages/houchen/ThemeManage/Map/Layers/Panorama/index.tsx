@@ -31,9 +31,24 @@ type MapMarkersType = {
     mapCity: string;
 };
 
-function MapMarkers({ mapInfo, layerActive, mapCity }: MapMarkersType) {
+function MapMarkers({ mapInfo, layerActive, mapCity, dispatch }: MapMarkersType) {
     const [childComponent, setChildComponent] = useState<JSX.Element | null>(null);
 
+    useEffect(() => {
+        const channel = new BroadcastChannel('location')
+        channel.onmessage = e => {
+            console.log(e, 'dsalkjcxzjls');
+            const { data } = e
+            mapInfo.getMap().easeTo(data.location);
+            dispatch({
+                type: 'houchenModel/setLayerActive',
+                payload: data.id
+            })
+        }
+        return () => {
+            channel.close(); // 在组件卸载时关闭 channel
+        };
+    }, [])
     useEffect(() => {
         const mapElement: { [key: string]: () => JSX.Element } = {
             '河南省': () => {

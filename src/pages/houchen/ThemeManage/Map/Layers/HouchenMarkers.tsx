@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Marker } from 'react-map-gl';
 import { connect } from 'dva';
 import { houchenData } from '@/pages/data/map'
@@ -27,10 +27,57 @@ type MapMarkersType = {
     mapInfo: any,
     viewState: any,
     dispatch: (action: setPopupInfoType) => void;
+    map: any;
 }
 
-function MapMarkers({ onMarkerClick, mapInfo, viewState, dispatch }: MapMarkersType) {
+function MapMarkers({ onMarkerClick, mapInfo, viewState, dispatch, map }: MapMarkersType) {
+    useEffect(() => {
+        const sourceId = 'polygon321';
+        if (map) {
+            // 检查源是否已存在
+            const existingSource = map.getSource(sourceId);
+            if (existingSource) {
+                // 如果源已存在，则先删除它
+                map.removeSource(sourceId);
+            }
+            const polygonData = {
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [
+                        [
+                            [115.4029739, 33.87238],
+                            [115.4039739, 33.8797],
+                            [115.414, 33.8797],
+                            [115.414, 33.87338],
+                            [115.4029739, 33.87238]
+                        ]
+                    ]
+                }
+            };
 
+            map.addSource(sourceId, {
+                type: 'geojson',
+                data: polygonData
+            })
+            map.addLayer({
+                'id': 'dsalkj',
+                'type': 'fill',
+                'source': sourceId,
+                'layout': {},
+                'paint': {
+                    'fill-color': '#50e3c2',
+                    'fill-opacity': 0.8
+                }
+            });
+        }
+        return () => {
+            if (map) {
+                map.removeLayer('dsalkj'); // 删除图层
+                map.removeSource(sourceId); // 删除源
+            }
+        };
+    }, [map])
     const onMarkerHandler = (e: any, city: MarkerFeature) => {
 
         const { geometry: { coordinates: center }, properties } = city
@@ -85,7 +132,8 @@ function MapMarkers({ onMarkerClick, mapInfo, viewState, dispatch }: MapMarkersT
 
 function mapStateToProps({ houchenModel }: any) {
     return {
-        viewState: houchenModel.viewState
+        viewState: houchenModel.viewState,
+        map: houchenModel.map,
     }
 }
 export default connect(mapStateToProps)(MapMarkers);

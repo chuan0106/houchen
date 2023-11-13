@@ -17,6 +17,8 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, dispatch, map }) => {
 
     useEffect(() => {
         const mapInfo = mapRef.current
+
+
         const commonProps = { onMarkerClick, mapInfo };
 
         const mapElement: { [key: string]: () => JSX.Element } = {
@@ -38,11 +40,10 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, dispatch, map }) => {
                 return <HouchenMarkers {...commonProps} />
             },
             '鹿邑': () => {
-
                 mapInfo.getMap().easeTo({
-                    center: [115.25848135107628, 33.918297835149275],
-                    zoom: 9.9,
-                    duration: 2000,
+                    center: [115.46313482407419, 33.871450293189724],
+                    zoom: 12.2,
+                    // duration: 2000,
                 });
                 return <LuyiMarkers {...commonProps} />
             },

@@ -1,0 +1,51 @@
+.dotted {
+    // width: 8px;
+    // height: 8px;
+    // background-color: #09f;
+    border-radius: 50%;
+}
+
+.city div[class^='pulse'] {
+    /* 保证我们小波纹在父盒子里面水平垂直居中 放大之后 就会中心 向四周发散 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 12px #009df0;
+    border-radius: 50%;
+    /* linear 匀速扩散 */
+    animation: pulse 1.2s linear infinite;
+}
+
+@keyframes pulse {
+    0% {}
+
+    70% {
+        width: 40px;
+        height: 40px;
+        /* 尽量不要用transform: scale(5) 因为他会让阴影变大 */
+        /* transform: scale(5); */
+        /* 透明度 */
+        opacity: 1;
+    }
+
+    100% {
+        width: 70px;
+        height: 70px;
+        opacity: 0.1;
+    }
+}
+
+.pulse1 {
+    animation-delay: 0.2s;
+}
+
+.pulse2 {
+    animation-delay: 0.4s;
+}
+
+.pulse3 {
+    animation-delay: 0.6s;
+}

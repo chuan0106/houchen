@@ -1,7 +1,7 @@
 export default [
     {
         path: "/", // 首页路径
-        redirect: "/houchen", // 重定向到 /houchen 页面
+        redirect: "/ipad", // 重定向到 /houchen 页面
     },
     {
         path: "/ipad", component: "@/pages/Ipad", title: 'Ipad', layout: false

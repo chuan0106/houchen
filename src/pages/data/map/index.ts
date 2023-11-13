@@ -185,41 +185,191 @@ const fugou = processCoordinateString(tx_fugou.detail.brief.area);
 const chuanhuiqu = processCoordinateString(tx_chuanhuiqu.detail.brief.area);
 const huaiyangqu = processCoordinateString(tx_huaiyangqu.detail.brief.area);
 const xiangchengshi = processCoordinateString(tx_xiangchengshi.detail.brief.area);
-
 const bozhouData = processCoordinateString(tx_bozhou.detail.brief.area);
 
-
 const henansheng = [
-    { name: '郑州', id: 'zhengzhou_layer', data: zhengzhou, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '开封', id: 'kaifeng_layer', data: kaifeng, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '洛阳', id: 'luoyang_layer', data: luoyang, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '平顶山', id: 'pingdingshan_layer', data: pingdingshan, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '安阳', id: 'anyang_layer', data: anyang, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '鹤壁', id: 'hebi_layer', data: hebi, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '新乡', id: 'xinxiang_layer', data: xinxiang, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '焦作', id: 'jiaozuo_layer', data: jiaozuo, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '濮阳', id: 'puyang_layer', data: puyang, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '许昌', id: 'xuchang_layer', data: xuchang, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '漯河', id: 'luohe_layer', data: luohe, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '三门峡', id: 'sanmenxia_layer', data: sanmenxia, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '南阳', id: 'nanyang_layer', data: nanyanga, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '商丘', id: 'shangqiu_layer', data: shangqiu, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '信阳', id: 'xinyang_layer', data: xinyang, color: '22, 97, 171', outline_color: '#0064fc' },
-    { name: '周口市', id: 'zhoukou_layer', data: zhoukou, color: '0, 100, 252', outline_color: '#0064fc' },
-    { name: '驻马店', id: 'zhumadian_layer', data: zhumadian, color: '22, 97, 171', outline_color: '#0064fc' },
+    {
+        name: '郑州', id: 'zhengzhou_layer', data: zhengzhou, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [113.46682338991832, 34.68839572261018],
+            zoom: 9
+        }
+    },
+    {
+        name: '开封', id: 'kaifeng_layer', data: kaifeng, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [114.55393388126276, 34.66394047416766],
+            zoom: 9
+        }
+    },
+    {
+        name: '洛阳', id: 'luoyang_layer', data: luoyang, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [111.99587395537645, 34.3617955899318],
+            zoom: 8.5
+        }
+    },
+    {
+        name: '平顶山', id: 'pingdingshan_layer', data: pingdingshan, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [112.9146279787056, 33.81320067741066],
+            zoom: 8.7
+        }
+    },
+    {
+        name: '安阳', id: 'anyang_layer', data: anyang, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [114.37629827024506, 35.840881170468634],
+            zoom: 8.7
+        }
+    },
+    {
+        name: '鹤壁', id: 'hebi_layer', data: hebi, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [114.29684845688479, 35.7849689544956],
+            zoom: 9.8
+        }
+    },
+    {
+        name: '新乡', id: 'xinxiang_layer', data: xinxiang, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [114.1651165691016, 35.39510041653989],
+            zoom: 8.7
+        }
+    },
+    {
+        name: '焦作', id: 'jiaozuo_layer', data: jiaozuo, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [113.06473392557746, 35.17478901411562],
+            zoom: 9.4
+        }
+    },
+    {
+        name: '濮阳', id: 'puyang_layer', data: puyang, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [115.44576795625477, 35.84819940771493],
+            zoom: 9
+        }
+    },
+    {
+        name: '许昌', id: 'xuchang_layer', data: xuchang, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [113.71794126766719, 34.116230066287486],
+            zoom: 9
+        }
+    },
+    {
+        name: '漯河', id: 'luohe_layer', data: luohe, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [113.86599094078667, 33.715901163639046],
+            zoom: 9.4
+        }
+    },
+    {
+        name: '三门峡', id: 'sanmenxia_layer', data: sanmenxia, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [111.16629744568644, 34.4434301299997],
+            zoom: 8.3
+        }
+    },
+    {
+        name: '南阳', id: 'nanyang_layer', data: nanyanga, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [112.23662949178731, 33.138285561332395],
+            zoom: 8
+        }
+    },
+    {
+        name: '商丘', id: 'shangqiu_layer', data: shangqiu, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [115.72189343505153, 34.35256141299722],
+            zoom: 8.7
+        }
+    },
+    {
+        name: '信阳', id: 'xinyang_layer', data: xinyang, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [114.89171759778804, 32.14578161887991],
+            zoom: 8.3
+        }
+    },
+    {
+        name: '周口市', id: 'zhoukou_layer', data: zhoukou, color: '0, 100, 252', outline_color: '#0064fc',
+        location: {
+            center: [114.87004627497936, 33.72063809386941],
+            zoom: 8.7
+        }
+    },
+    {
+        name: '驻马店', id: 'zhumadian_layer', data: zhumadian, color: '22, 97, 171', outline_color: '#0064fc',
+        location: {
+            center: [114.19754910242978, 32.99365380158558],
+            zoom: 8.6
+        }
+    },
 ]
 
 const zhoukoushi = [
-    { name: '鹿邑县', id: 'luyi_layer', data: luyiData, color: '0, 100, 252', outline_color: '#0064fc' },
-    { name: '太康县', id: 'taikang_layer', data: taikang, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '郸城县', id: 'dancheng_layer', data: dancheng, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '沈丘县', id: 'shenqiu_layer', data: shenqiu, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '商水县', id: 'shangshui_layer', data: shangshui, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '西华县', id: 'xihua_layer', data: xihua, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '扶沟县', id: 'fugou_layer', data: fugou, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '川汇区', id: 'chuanhuiqu_layer', data: chuanhuiqu, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '淮阳区', id: 'huaiyangqu_layer', data: huaiyangqu, color: '230, 179, 180', outline_color: '#0064fc' },
-    { name: '项城市', id: 'xiangchengshi_layer', data: xiangchengshi, color: '230, 179, 180', outline_color: '#0064fc' },
+    {
+        name: '鹿邑县', id: 'luyi_layer', data: luyiData, color: '0, 100, 252', outline_color: '#0064fc', location: {
+            center: [115.36715645278235, 33.91635427494431],
+            zoom: 10
+        }
+    },
+    {
+        name: '太康县', id: 'taikang_layer', data: taikang, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.8376398131183, 34.107017313666375],
+            zoom: 10
+        }
+    },
+    {
+        name: '郸城县', id: 'dancheng_layer', data: dancheng, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [115.30803538294424, 33.65768478619064],
+            zoom: 10
+        }
+    },
+    {
+        name: '沈丘县', id: 'shenqiu_layer', data: shenqiu, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [115.15076804023761, 33.32562675031549],
+            zoom: 10
+        }
+    },
+    {
+        name: '商水县', id: 'shangshui_layer', data: shangshui, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.50614740287568, 33.52591678688876],
+            zoom: 10
+        }
+    },
+    {
+        name: '西华县', id: 'xihua_layer', data: xihua, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.49080058163275, 33.81429179743664],
+            zoom: 10
+        }
+    },
+    {
+        name: '扶沟县', id: 'fugou_layer', data: fugou, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.38668132313171, 34.11574330471109],
+            zoom: 10
+        }
+    },
+    {
+        name: '川汇区', id: 'chuanhuiqu_layer', data: chuanhuiqu, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.64202, 33.625607],
+            zoom: 10
+        }
+    },
+    {
+        name: '淮阳区', id: 'huaiyangqu_layer', data: huaiyangqu, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.88867698565201, 33.686832316425736],
+            zoom: 10
+        }
+    },
+    {
+        name: '项城市', id: 'xiangchengshi_layer', data: xiangchengshi, color: '230, 179, 180', outline_color: '#0064fc', location: {
+            center: [114.92427842523114, 33.290915825005015],
+            zoom: 10
+        }
+    },
 ]
 
 export { homeData, houchenData, luyiData, bozhouData, henansheng, zhoukoushi };

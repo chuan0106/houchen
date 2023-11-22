@@ -1,0 +1,130 @@
+.contentBox {
+    display: flex;
+
+    .fade {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #E40960, #3C85FF);
+        border-radius: 2px;
+    }
+
+    .boxLeft {
+        flex: 7;
+
+        .box2 {
+            left: 50px;
+            margin-right: 160px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            height: 80px;
+            font-size: 48px;
+            overflow: hidden;
+            display: inline-block;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #fff;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .box1 {
+            left: 50px;
+            margin-right: 160px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            height: 80px;
+            font-size: 48px;
+            overflow: hidden;
+            display: inline-block;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #808080;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+
+
+        .wrapper {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+
+            .content {
+                position: relative;
+                width: 100%;
+                padding-right: 140px;
+                overflow: hidden;
+
+                .itemSelect {
+                    width: 470px;
+                    height: 136px;
+                    background: #1A1A1A;
+                    font-size: 40px;
+                    border-radius: 24px;
+                    font-family: PingFang SC;
+                    font-weight: 500;
+                    color: #808080;
+                    text-align: center;
+                    // 居中
+                    line-height: 136px;
+                    letter-spacing: 3px;
+                    margin-bottom: 36px;
+                    margin-right: 26px;
+                    float: left;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .itemSelectActive {
+                    background: #453cff;
+                    color: #fff !important;
+                }
+            }
+
+
+            .floortab {
+                width: 100%;
+                padding-right: 140px;
+                margin-top: 50px;
+                overflow: hidden;
+
+                div {
+                    width: 470px;
+                    height: 136px;
+                    background: #1A1A1A;
+                    font-size: 40px;
+                    border-radius: 24px;
+                    font-family: PingFang SC;
+                    font-weight: 500;
+                    color: #808080;
+                    text-align: center;
+                    // 居中
+                    line-height: 136px;
+                    letter-spacing: 3px;
+                    margin-bottom: 36px;
+                    margin-right: 26px;
+                    float: left;
+                }
+
+                .dckqItemSelect {
+                    background: #453cff;
+                    color: #fff !important;
+                }
+            }
+
+        }
+
+        .Timeline {
+            flex: 1;
+            width: 100%;
+            height: 300px;
+            // background-color: pink;
+        }
+    }
+
+}

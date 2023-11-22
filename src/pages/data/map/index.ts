@@ -56,6 +56,9 @@ interface GeoJson {
     properties: Record<string, any>;
 }
 
+const homeData: FeatureCollection = home as FeatureCollection;
+const houchenData: FeatureCollection = houchen as FeatureCollection;
+
 const processCoordinateString = (coordinateString: string): GeoJson => {
     // 去掉括号和分号，并将坐标对拆分成数组
     const coordinatePairs = coordinateString
@@ -81,8 +84,7 @@ const processCoordinateString = (coordinateString: string): GeoJson => {
 };
 
 
-const homeData: FeatureCollection = home as FeatureCollection;
-const houchenData: FeatureCollection = houchen as FeatureCollection;
+
 
 const luyiData: any = (() => {
     // 百度数据

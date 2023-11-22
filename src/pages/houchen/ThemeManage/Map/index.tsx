@@ -127,6 +127,8 @@ const App: FC<props> = ({ viewState, popupInfo, mapTheme }) => {
         // const map = event?.target as mapboxgl.Map;
         const map = event?.target;
         const { point } = event;
+        console.log(event, 'dsalkjdsa');
+
         const features = map.queryRenderedFeatures(point);
         const filteredFeatures = features.filter(feature => feature.source !== 'composite');
         const sourceId = filteredFeatures.length > 0 && filteredFeatures[0].source
@@ -147,7 +149,8 @@ const App: FC<props> = ({ viewState, popupInfo, mapTheme }) => {
     return (
         <>
             <Map
-                {...viewState}
+                // {...viewState}
+                initialViewState={viewState}
                 ref={mapRef}
                 language={'zh-Hans'}
                 onMove={onMove}
@@ -157,10 +160,7 @@ const App: FC<props> = ({ viewState, popupInfo, mapTheme }) => {
                 mapboxAccessToken={MAPBOX_TOKEN}
                 onClick={mapHandlerClick}
             >
-                <Layers
-                    mapRef={mapRef}
-                    onMarkerClick={markerHandler}
-                />
+                <Layers mapRef={mapRef} onMarkerClick={markerHandler} />
                 {popupInfo && (
                     <Popup
                         anchor="left"

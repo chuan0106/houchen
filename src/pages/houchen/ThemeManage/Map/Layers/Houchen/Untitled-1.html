@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>南通地铁一号线全程线路图</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2h1YW4wMTA2IiwiYSI6ImNrc3UzaHM0NDFjbTMydm1kaG1vaW1tN3YifQ.vMtkKlcWXantTp1p1Z6N3g';
+        function generateCoordinates (start, end, count, controlPoints)
+        {
+            var coordinates = [];
+            var numSegments = controlPoints.length + 1;
+            var segmentCount = Math.floor(count / numSegments);
+
+            var segmentStart = start;
+            var segmentEnd = controlPoints[0];
+
+            for (var i = 0; i < numSegments; i++)
+            {
+                var segmentCoordinates = generateSegmentCoordinates(segmentStart, segmentEnd, segmentCount);
+                coordinates = coordinates.concat(segmentCoordinates);
+
+                segmentStart = segmentEnd;
+                segmentEnd = controlPoints[i + 1] || end;
+            }
+
+            return coordinates;
+        }
+
+        function generateSegmentCoordinates (start, end, count)
+        {
+            var coordinates = [];
+            var dx = end[0] - start[0];
+            var dy = end[1] - start[1];
+            var angle = Math.atan2(dy, dx);
+            var radius = Math.sqrt(dx * dx + dy * dy);
+            var step = radius / count;
+            var cosAngle = Math.cos(angle);
+            var sinAngle = Math.sin(angle);
+
+            for (var i = 0; i <= count; i++)
+            {
+                var x = start[0] + cosAngle * (step * i);
+                var y = start[1] + sinAngle * (step * i);
+                coordinates.push([x, y]);
+            }
+
+            return coordinates;
+        }
+
+        // 示例用法
+        var start = [120.894, 32.014];
+        var end = [120.912, 33.934];
+        var count = 3000;
+        var controlPoints = [
+            [120.9, 32.02],
+            [120.905, 32.9]
+        ]; // 控制点用于模拟转弯
+
+        var generatedCoordinates = generateCoordinates(start, end, count, controlPoints);
+
+
+
+        // 创建地图实例
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [120.894, 32.014], // 地图中心点经纬度
+            zoom: 12 // 初始缩放级别
+        });
+
+        // 添加南通地铁一号线的 GeoJSON 数据
+        // 创建地图实例
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [120.894, 32.014], // 地图中心点经纬度
+            zoom: 12 // 初始缩放级别
+        });
+
+        // 添加南通地铁一号线的 GeoJSON 数据
+        map.on('load', function ()
+        {
+            map.addSource('subway-line', {
+                type: 'geojson',
+                data: {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": generatedCoordinates
+                            },
+                            "properties": {}
+                        }
+                    ]
+                }
+            });
+
+            map.addLayer({
+                id: 'subway-line',
+                type: 'line',
+                source: 'subway-line',
+                paint: {
+                    'line-color': '#ff0000',
+                    'line-width': 3
+                }
+            });
+
+            // 模拟车辆沿着线路行驶的效果
+            var lineCoordinates = map.getSource('subway-line')._data.features[0].geometry.coordinates;
+            var currentPointIndex = 0; // 当前车辆所在坐标点的索引
+            var marker = new mapboxgl.Marker().setLngLat(lineCoordinates[currentPointIndex]).addTo(map);
+
+            function animateMarker ()
+            {
+                if (currentPointIndex < lineCoordinates.length - 1)
+                {
+                    currentPointIndex++;
+                    marker.setLngLat(lineCoordinates[currentPointIndex]);
+                    setTimeout(animateMarker, 1); // 每隔1秒更新车辆位置
+
+                    map.setCenter(lineCoordinates[currentPointIndex]);
+                }
+            }
+
+            animateMarker();
+        });
+    </script>
+</body>
+
+</html>

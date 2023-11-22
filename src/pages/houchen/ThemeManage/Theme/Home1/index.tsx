@@ -513,7 +513,7 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
 
                 </div>
 
-                <div className={styles.container_right}>
+                {/* <div className={styles.container_right}>
                     <div className={styles.core}>
                         {footfall.map(item => {
                             const countUpProps: CountUpProps = {
@@ -548,7 +548,7 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
                         })}
 
                     </div>
-                </div>
+                </div> */}
                 <div className={styles.modal}>
                     <div style={{ display: modal ? 'block' : 'none' }} className={styles.cookie_card} >
                         <span className={styles.title} >{modal?.title}</span>

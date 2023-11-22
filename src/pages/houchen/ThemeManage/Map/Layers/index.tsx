@@ -1,7 +1,8 @@
 import { FC, memo, useEffect, useState, Fragment } from 'react'
 import { connect } from 'dva';
 import HomeMarkers from './HomeMarkers'
-import HouchenMarkers from './HouchenMarkers'
+// import HouchenMarkers from './HouchenMarkers'
+import HouchenMarkers from './Houchen'
 import LuyiMarkers from './LuyiMarkers'
 import Panorama from './Panorama'
 
@@ -18,7 +19,6 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, dispatch, map }) => {
     useEffect(() => {
         const mapInfo = mapRef.current
 
-
         const commonProps = { onMarkerClick, mapInfo };
 
         const mapElement: { [key: string]: () => JSX.Element } = {
@@ -33,8 +33,8 @@ const Index: FC<Props> = ({ menu, onMarkerClick, mapRef, dispatch, map }) => {
             },
             '后陈': () => {
                 mapInfo.getMap().easeTo({
-                    center: [115.4059739, 33.8782738],
-                    zoom: 16,
+                    center: [115.45820410613328, 33.86159840148224],
+                    zoom: 12.38,
                     duration: 2000,
                 });
                 return <HouchenMarkers {...commonProps} />

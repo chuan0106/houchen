@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>南通地铁一号线全程线路图</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2h1YW4wMTA2IiwiYSI6ImNrc3UzaHM0NDFjbTMydm1kaG1vaW1tN3YifQ.vMtkKlcWXantTp1p1Z6N3g';
+
+        function generateCoordinates (start, end, count, controlPoints)
+        {
+            var coordinates = [];
+            var numSegments = controlPoints.length + 1;
+            var segmentCount = Math.floor(count / numSegments);
+
+            // 计算每个曲线段的起点和终点
+            var segmentStart = start;
+            var segmentEnd = controlPoints[0];
+
+            for (var i = 0; i < numSegments; i++)
+            {
+                // 生成当前曲线段上的坐标点
+                var segmentCoordinates = generateSegmentCoordinates(segmentStart, segmentEnd, segmentCount);
+                coordinates = coordinates.concat(segmentCoordinates);
+
+                // 更新下一个曲线段的起点和终点
+                segmentStart = segmentEnd;
+                segmentEnd = controlPoints[i + 1] || end;
+            }
+
+            return coordinates;
+        }
+
+        function generateSegmentCoordinates (start, end, count)
+        {
+            var coordinates = [];
+            var longitudeStep = (end[0] - start[0]) / (count + 1);
+            var latitudeStep = (end[1] - start[1]) / (count + 1);
+
+            for (var i = 1; i <= count; i++)
+            {
+                var longitude = start[0] + (longitudeStep * i);
+                var latitude = start[1] + (latitudeStep * i);
+                coordinates.push([longitude, latitude]);
+            }
+
+            return coordinates;
+        }
+
+        // 示例用法
+        var start = [115.40659452710702, 33.879357162150356];
+        var end = [115.48629, 33.86727];
+        var count = 300;
+        var controlPoints = [
+            [115.41, 33.8780],
+            // [115.48629, 33.86727],
+        ]; // 减少控制点的数量
+
+        var generatedCoordinates = generateCoordinates(start, end, count, controlPoints);
+        // console.log(generatedCoordinates);
+
+
+        var lineCoordinates = [];
+
+        for (var i = 0; i < 100; i++)
+        {
+            var longitude = 120.895 + (i * 0.001);
+            var latitude = 32.015 + (i * 0.001);
+            lineCoordinates.push([longitude, latitude]);
+        }
+
+        // 创建地图实例
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [120.894, 32.014], // 地图中心点经纬度
+            zoom: 12 // 初始缩放级别
+        });
+
+        // 添加南通地铁一号线的 GeoJSON 数据
+        // 创建地图实例
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [120.894, 32.014], // 地图中心点经纬度
+            zoom: 12 // 初始缩放级别
+        });
+
+        // 添加南通地铁一号线的 GeoJSON 数据
+        map.on('load', function ()
+        {
+            map.addSource('subway-line', {
+                type: 'geojson',
+                data: {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": generatedCoordinates
+                            },
+                            "properties": {}
+                        }
+                    ]
+                }
+            });
+
+            map.addLayer({
+                id: 'subway-line',
+                type: 'line',
+                source: 'subway-line',
+                paint: {
+                    'line-color': '#ff0000',
+                    'line-width': 3
+                }
+            });
+
+            // 模拟车辆沿着线路行驶的效果
+            var lineCoordinates = map.getSource('subway-line')._data.features[0].geometry.coordinates;
+            var currentPointIndex = 0; // 当前车辆所在坐标点的索引
+            var marker = new mapboxgl.Marker().setLngLat(lineCoordinates[currentPointIndex]).addTo(map);
+
+            function animateMarker ()
+            {
+                if (currentPointIndex < lineCoordinates.length - 1)
+                {
+                    currentPointIndex++;
+                    marker.setLngLat(lineCoordinates[currentPointIndex]);
+                    setTimeout(animateMarker, 1); // 每隔1秒更新车辆位置
+
+                    map.setCenter(lineCoordinates[currentPointIndex]);
+                }
+            }
+
+            animateMarker();
+        });
+    </script>
+</body>
+
+</html>

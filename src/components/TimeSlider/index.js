@@ -18,6 +18,11 @@ const index = ({ SliderChange }) =>
     {
         setCurrentTime(ThisTime())
     }, [])
+    useEffect(() =>
+    {
+        console.log({ currentTime });
+        SliderChange(currentTime)
+    }, [currentTime])
     // 获取实时小时
     const ThisTime = () =>
     {

@@ -26,8 +26,6 @@ import { toFixed } from '@/utils/js/tools'
 import Card from '@/components/Card'
 import TimeSlider from '@/components/TimeSlider/index'
 
-import Houchen from './Components/Houchen'
-
 import { henansheng, zhoukoushi, homeData } from '@/pages/data/map'
 
 import jqzl from '@/assets/ipad/hongjie/jqzl.png';
@@ -138,8 +136,8 @@ const homeLeftData = [
     { name: '景区实时客流', id: 2 }
 ]
 const jqkd_Data = [
-    { name: '客流来源', name_A: 'KLLY', id: 1 },
-    { name: '景区实时客流', name_A: 'JQSSKL', id: 2 },
+    { name: '客流来源', name_A: 'KLLY', },
+    { name: '景区实时客流', name_A: 'JQSSKL', },
 ]
 
 const panoramaData = [
@@ -195,31 +193,6 @@ const Index: FC<Props> = () => {
     const reset = useRef();
     const leftRef = useRef()
     const rightRef = useRef()
-
-    useEffect(() => {
-        function getLocation() {
-            fetch('http://ip-api.com/json')
-                .then(response => response.json())
-                .then(data => {
-                    console.log({ data });
-
-                    console.log("City: " + data.city);
-                    console.log("Region: " + data.regionName);
-                    console.log("Country: " + data.country);
-                })
-                .catch(error => {
-                    console.log("Error: " + error);
-                });
-        }
-
-        getLocation();
-
-    }, [tabID])  // 检测数组内变量 如果为空 则监控全局
-
-
-
-
-
     useEffect(() => {
         window.addEventListener('resize', resizeTTY);
         return () => {
@@ -412,7 +385,73 @@ const Index: FC<Props> = () => {
                             </div>
                         </div>
                         <div className={styles.foot}>
-                            {tabID === 2 && <Houchen />}
+                            {tabID === 2 ? (
+                                <div className={styles.contentBox}>
+                                    <div className={styles.boxLeft}>
+                                        {
+                                            homeLeftData.map((data, index) => {
+                                                return (
+                                                    <div className={homeActive === data.id ? styles.box2 : styles.box1}
+                                                        key={index}
+                                                        onClick={() => { setHomeActive(data.id) }}
+                                                    >
+                                                        <span>
+                                                            {data.name}
+                                                        </span>
+                                                        {homeActive === data.id ? (<div className={styles.fade}></div>) : null}
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                        {homeActive === 1 && (
+                                            <div className={styles.wrapper}>
+                                                <div className={styles.floortab}>
+                                                    {
+                                                        homeData.features.map((data, index) => {
+                                                            return (
+                                                                <div className={active === data.properties.city ? styles.dckqItemSelect : ''}
+                                                                    onClick={() => wdhcClick(data)}
+                                                                    key={index}>
+                                                                    {data.properties.city}
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+                                        )}
+                                        {homeActive === 2 && (
+                                            <div className={styles.Timeline}>
+                                                <TimeSlider SliderChange={SliderChange} />
+                                            </div>
+                                        )}
+
+                                    </div>
+                                    {/* <div className={styles.boxRight}>
+                                        <div className={styles.cnklLeft}>
+                                            <div className={styles.foottit1} >
+                                                <img src={wdhc_img} alt="" className={styles.wdhc_img}></img>
+                                                <span className={styles.foottitText}>两大乐园</span>
+                                            </div>
+                                        </div>
+                                        <div id="jq_wrapper" className={styles.wrapper}>
+                                            <div className={styles.floortab}>
+                                                {
+                                                    wdhg &&
+                                                    ldly.map((data, index) => {
+                                                        return (
+                                                            <div className={jqzlBtn === data.name ? styles.dckqItemSelect : ''}
+                                                                onClick={() => ldlyClick(data)}
+                                                                key={index}>
+                                                                {data.name}
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    </div> */}
+                                </div>) : null}
                             {/* 街区活动 */}
                             {tabID === 1 ? (
                                 <div className={styles.contentBox}>

@@ -217,16 +217,16 @@ const Index: FC<Props> = ({ map, dispatch, popupInfo }) => {
             clearInterval(interval);
         };
     }, []);
-    useEffect(() => {
-        const channel = new BroadcastChannel('time')
-        channel.onmessage = e => {
-            const { data: time } = e
-            setTime(parseFloat(time))
-        }
-        return () => {
-            channel.close(); // 在组件卸载时关闭 channel
-        };
-    }, [])
+    // useEffect(() => {
+    //     const channel = new BroadcastChannel('time')
+    //     channel.onmessage = e => {
+    //         const { data: time } = e
+    //         setTime(parseFloat(time))
+    //     }
+    //     return () => {
+    //         channel.close(); // 在组件卸载时关闭 channel
+    //     };
+    // }, [])
 
     useEffect(() => {
         const channel = new BroadcastChannel('modal')

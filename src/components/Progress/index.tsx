@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 import styles from './style.less'
 
 type Props = {
@@ -10,7 +10,9 @@ type Props = {
 const Index: FC<Props> = ({ percent, unSelectedColor, strokeColor, value }) => {
     const [count, setCount] = useState(percent)
     console.log(count, 'countcount');
-
+    useEffect(() => {
+        setCount(percent)
+    }, [percent])  // 检测数组内变量 如果为空 则监控全局
 
     const myRef = useRef(null)
     const bgDown = (e) => {
